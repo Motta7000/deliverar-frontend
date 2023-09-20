@@ -1,8 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Typography, Box } from "@mui/material"
-import Link from "next/link";
 import {useRouter} from "next/navigation";
+import {useSession, signIn, signOut} from "next-auth/react";
+import {UserCard} from "../userCard";
 
 interface User {
     email: "",
@@ -11,6 +12,30 @@ interface User {
 }
 
 export default function Login() {
+
+    // get session from next-auth
+    const {data: session} = useSession();
+
+    // useSession uses React Context
+
+    // if the user exists -> show a Sign Out button and their information
+    if (session) {
+        return (
+            <>
+                <button onClick={() => signOut()} type="button">Sign Out of Google</button>
+                {/* Pass session info to server component */}
+                <UserCard user={session?.user}/>
+            </>
+        )
+    } else {
+        return (
+            <>
+                <button onClick={() => signIn()} type="button">Sign In with Google</button>
+            </>
+        )
+    }
+
+
     const router = useRouter();
     const [user, setUser] = useState({
         email: "",

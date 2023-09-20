@@ -1,7 +1,5 @@
-import Image from 'next/image'
-import styles from './page.module.css'
-import Login from './login/page'
 import { Box, Typography } from '@mui/material'
+import Login from "@/app/login/page";
 
 export default function Home() {
   return (
@@ -14,8 +12,7 @@ export default function Home() {
       </Box>
       <Box sx={{display: "flex", width:"50%", height: "100vh", backgroundColor:"blue", alignItems:"flex-end", justifyContent:"flex-start"}}>
         <Box sx={{display:"flex", flexDirection:"column", width:"50%", height:"80%", backgroundColor:"green",  marginLeft: "15px"}}>
-          <Typography>Entregas Premium, Autonomas y Confiables</Typography>
-          <Typography>Ofrecemos un servicio de entregas de máxima calidad con un toque de innovación y seguridad. Nuestra flota de vehículos autónomos garantiza una entrega eficiente y confiable en todo momento. </Typography>
+            <Login/>
         </Box>
       </Box>
     </Box>
