@@ -1,5 +1,4 @@
 import {Box, Container, Grid, Typography, hexToRgb} from '@mui/material'
-import {Navbar} from '@/components'
 
 export default function LandingPage() {
 
@@ -7,9 +6,6 @@ export default function LandingPage() {
 
     return (
         <>
-
-            <Navbar/>
-
             <Box
                 position={'absolute'}
                 width={'70%'}
@@ -21,8 +17,6 @@ export default function LandingPage() {
                 zIndex={2}
                 bgcolor={'grey'}
             >
-
-
                 <Typography
                     position={'relative'}
                     variant='h2'
@@ -51,10 +45,7 @@ export default function LandingPage() {
                 >
                     Nuestra flota de vehículos autónomos garantiza una entrega eficiente y confiable en todo momento.
                 </Typography>
-
-
             </Box>
-
             <Box
                 component="div"
                 sx={{
@@ -67,11 +58,6 @@ export default function LandingPage() {
                     backgroundRepeat: 'no-repeat'
                 }}
             />
-
-
-            {/* Footer */}
-
-
         </>
     )
 }
