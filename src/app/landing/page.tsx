@@ -7,6 +7,7 @@ export default function LandingPage() {
     return (
         <>
             <Box
+                sx={{backdropFilter: "blur(10px)", border: "1px solid grey"}}
                 position={'absolute'}
                 width={'70%'}
                 height={'80%'}
@@ -15,7 +16,6 @@ export default function LandingPage() {
                 left={'20%'}
                 padding={10}
                 zIndex={2}
-                bgcolor={'grey'}
             >
                 <Typography
                     position={'relative'}
@@ -50,11 +50,11 @@ export default function LandingPage() {
                 component="div"
                 sx={{
                     position: 'absolute',
-                    width: '100%',
-                    height: '100%',
-                    backgroundImage: `url(${imageURL})`,
-                    backgroundPosition: 'center',
-                    backgroundSize: 'cover',
+                    width: "100%",
+                    height: "100vh",
+                    backgroundImage: `url("/images/background-barrio.png")`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
                     backgroundRepeat: 'no-repeat'
                 }}
             />

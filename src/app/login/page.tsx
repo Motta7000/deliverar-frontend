@@ -8,12 +8,19 @@ export default function Login() {
     const {data: session} = useSession();
     console.log(session)
     return (
-        <Box sx={{display: "flex", width: "100%", height: "100vh", backgroundColor: "yellow"}}>
+        <Box sx={{
+            display: "flex",
+            width: "100%",
+            height: "100vh",
+            backgroundImage: `url("/images/background-barrio.png")`,
+            backgroundSize: "cover",
+            backgroundPosition: "center"
+        }}>
             <Box sx={{
                 display: "flex",
                 width: "50%",
                 height: "100vh",
-                backgroundColor: "red",
+                //backgroundColor: "red",
                 alignItems: "center",
                 justifyContent: "flex-end"
             }}>
@@ -35,7 +42,7 @@ export default function Login() {
                 display: "flex",
                 width: "50%",
                 height: "100vh",
-                backgroundColor: "blue",
+                //backgroundColor: "blue",
                 alignItems: "flex-end",
                 justifyContent: "flex-start",
             }}>
