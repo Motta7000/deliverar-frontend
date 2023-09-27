@@ -1,7 +1,7 @@
 "use client"
 import {Box, Typography, TextField, Button, Icon} from '@mui/material'
 import Divider from '@mui/material/Divider';
-import {signIn, useSession} from "next-auth/react";
+import {signIn, signOut, useSession} from "next-auth/react";
 import Link from "next/link";
 import NextLink from "next/link";
 
@@ -31,14 +31,13 @@ export default function Login() {
                 display: "flex",
                 width: "50%",
                 height: "100vh",
-                //backgroundColor: "red",
                 alignItems: "center",
                 justifyContent: "flex-end"
             }}>
                 <Box sx={{
                     display: "flex",
                     flexDirection: "column",
-                    width: "50%",
+                    width: "60%",
                     padding: "10px",
                     marginRight: "15px",
                     gap: "20px",
@@ -62,7 +61,7 @@ export default function Login() {
                     display: "flex",
                     flexDirection: "column",
                     width: "50%",
-                    height: "70%",
+                    height: "80%",
                     backgroundColor: "#FAFAFA",
                     marginLeft: "15px",
                     borderRadius: "24px 24px 0px 0px",
@@ -119,7 +118,7 @@ export default function Login() {
                                 textTransform: "capitalize",
                                 color: "white",
                                 backgroundColor: "black",
-                                borderRadius: "4px",
+                                borderRadius: "10px",
                                 cursor: "pointer",
                                 fontSize: "16px",
                                 "&:hover": {
@@ -154,7 +153,10 @@ export default function Login() {
                                 backgroundColor: "grey",
                                 color: "white"
                             }
-                        }} startIcon={googleIcon} onClick={() => signIn()}>Ingresar Con Google</Button>
+                        }} startIcon={googleIcon} type="button" onClick={async () => {
+                            await signIn()
+                            router.push("/")
+                        }}>Ingresar Con Google</Button>
                         <Button sx={{
                             width: "100%",
                             textTransform: "capitalize",
@@ -173,17 +175,16 @@ export default function Login() {
                     <Box sx={{display: "flex", alignItems: "center", gap: "10px"}}>
                         <Typography sx={{textTransform: "capitalize", color: "black", fontSize: "15px"}}>Nuevo
                             Usuario?</Typography>
-                        <NextLink href='/' passHref>
-                            <Link display={'flex'} alignItems={'center'} href="/signup">
-                                <Typography sx={{
-                                    marginLeft: "auto",
-                                    textTransform: "capitalize",
-                                    color: "black",
-                                    cursor: "pointer",
-                                    "&:hover": {textDecoration: "underline dotted"}
-                                }}>REGISTRATE ACA</Typography>
-                            </Link>
-                        </NextLink>
+                        <Link href={"/signup"}>
+                            <Typography sx={{
+                                marginLeft: "auto",
+                                textTransform: "capitalize",
+                                color: "black",
+                                cursor: "pointer",
+                                textDecoration: "underline",
+                                "&:hover": {textDecoration: "underline dotted"}
+                            }}>REGISTRATE ACA</Typography>
+                        </Link>
                     </Box>
                 </Box>
             </Box>

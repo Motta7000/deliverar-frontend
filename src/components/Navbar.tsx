@@ -18,15 +18,20 @@ export const Navbar = () => {
                         <Box
                             sx={{display: "flex", justifyContent: "center", alignItems: "center", gap: "10px", marginLeft: "auto"}}>
                             <p>{session?.user?.name}</p>
-                            <Avatar src={session?.user?.image} alt=""/>
+                            <Avatar src={session?.user?.image} alt="user-avatar"/>
                             <Button
-                                sx={{textTransform: "capitalize", backgroundColor: "grey", "&:hover": {backgroundColor: "red"}}}
+                                sx={{
+                                    textTransform: "capitalize", backgroundColor: "black", color: "white", borderRadius: "10px", "&:hover": {
+                                        backgroundColor: "grey",
+                                        color: "white"
+                                    }
+                                }}
                                 onClick={async () => {
                                     await signOut({
                                         callbackUrl: "/"
                                     })
                                 }}
-                                type="button">Logout</Button>
+                                type="button">Cerrar Sesion</Button>
                         </Box>
                     ) :
                     (
@@ -35,7 +40,7 @@ export const Navbar = () => {
                                 sx={{display: "flex", justifyContent: "center", alignItems: "center", gap: "10px", marginLeft: "auto"}}>
                                 <NextLink href='/login'>
                                     <Link>
-                                        <Typography variant='h6' color={'white'}> Login </Typography>
+                                        <Typography variant='h6' color={'white'}>Iniciar Sesion</Typography>
                                     </Link>
                                 </NextLink>
                             </Box>
@@ -43,7 +48,7 @@ export const Navbar = () => {
                             <Box>
                                 <NextLink href='/signup'>
                                     <Link>
-                                        <Typography variant='h6' color={'white'}> Register </Typography>
+                                        <Typography variant='h6' color={'white'}>Registrarse</Typography>
                                     </Link>
                                 </NextLink>
                             </Box>

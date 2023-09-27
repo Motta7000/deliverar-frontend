@@ -1,9 +1,6 @@
 import {Box, Container, Grid, Typography, hexToRgb} from '@mui/material'
 
 export default function LandingPage() {
-
-    const imageURL = "https://eloccidental.com.ar/wp-content/uploads/2021/05/WhatsApp-Image-2021-05-02-at-19.14.45-2-2.jpeg";
-
     return (
         <>
             <Box
