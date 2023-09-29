@@ -9,19 +9,27 @@ export const Navbar = () => {
     return (
         <AppBar elevation={0}>
             <Toolbar>
-                <NextLink href='/' passHref>
-                    <Link display={'flex'} alignItems={'center'}>
-                        <Typography variant='h6' color={'white'}> DeliverAr </Typography>
-                    </Link>
-                </NextLink>
+                <Link display={'flex'} alignItems={'center'} href='/'>
+                    <Typography variant='h6' color={'white'}> DeliverAr </Typography>
+                </Link>
                 {session?.user ? (
                         <Box
-                            sx={{display: "flex", justifyContent: "center", alignItems: "center", gap: "10px", marginLeft: "auto"}}>
+                            sx={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                gap: "10px",
+                                marginLeft: "auto"
+                            }}>
                             <p>{session?.user?.name}</p>
                             <Avatar src={session?.user?.image} alt="user-avatar"/>
                             <Button
                                 sx={{
-                                    textTransform: "capitalize", backgroundColor: "black", color: "white", borderRadius: "10px", "&:hover": {
+                                    textTransform: "capitalize",
+                                    backgroundColor: "black",
+                                    color: "white",
+                                    borderRadius: "10px",
+                                    "&:hover": {
                                         backgroundColor: "grey",
                                         color: "white"
                                     }
@@ -37,20 +45,22 @@ export const Navbar = () => {
                     (
                         <>
                             <Box
-                                sx={{display: "flex", justifyContent: "center", alignItems: "center", gap: "10px", marginLeft: "auto"}}>
-                                <NextLink href='/login'>
-                                    <Link>
-                                        <Typography variant='h6' color={'white'}>Iniciar Sesion</Typography>
-                                    </Link>
-                                </NextLink>
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    gap: "10px",
+                                    marginLeft: "auto"
+                                }}>
+                                <Link href='/login'>
+                                    <Typography variant='h6' color={'white'}>Iniciar Sesion</Typography>
+                                </Link>
                             </Box>
                             <Box padding={2}/>
                             <Box>
-                                <NextLink href='/signup'>
-                                    <Link>
-                                        <Typography variant='h6' color={'white'}>Registrarse</Typography>
-                                    </Link>
-                                </NextLink>
+                                <Link href='/signup'>
+                                    <Typography variant='h6' color={'white'}>Registrarse</Typography>
+                                </Link>
                             </Box>
                         </>
                     )}
