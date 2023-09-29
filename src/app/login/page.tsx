@@ -4,6 +4,7 @@ import Divider from '@mui/material/Divider';
 import {signIn, signOut, useSession} from "next-auth/react";
 import Link from "next/link";
 import NextLink from "next/link";
+import {router} from "next/client";
 
 export default function Login() {
     const {data: session} = useSession();
@@ -155,7 +156,7 @@ export default function Login() {
                             }
                         }} startIcon={googleIcon} type="button" onClick={async () => {
                             await signIn()
-                            router.push("/")
+                            await router.push("/")
                         }}>Ingresar Con Google</Button>
                         <Button sx={{
                             width: "100%",
