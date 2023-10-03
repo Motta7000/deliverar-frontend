@@ -8,6 +8,10 @@ import Link from "next/link";
 
 export default function Signup() {
     const {data: session} = useSession();
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
     console.log(session)
     const googleIcon = (
         <Icon sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
@@ -19,6 +23,13 @@ export default function Signup() {
             <img alt="edit" src="/images/facebook-icon.svg" style={{width: "100%", height: "100%"}}/>
         </Icon>
     );
+
+    const onCreate = () => {
+        console.log("email: ", email)
+        console.log("password: ", password)
+        console.log("create")
+    }
+
     return (
         <Box sx={{
             display: "flex",
@@ -89,17 +100,32 @@ export default function Signup() {
                             noValidate
                             autoComplete="off"
                         >
-                            <TextField InputProps={{
-                                style: {
-                                    borderRadius: "10px",
-                                }
-                            }} id="outlined-basic" label="Nombre"
-                                       variant="outlined"/>
-                            <TextField InputProps={{
-                                style: {
-                                    borderRadius: "10px",
-                                }
-                            }} id="outlined-basic" label="Email" variant="outlined"/>
+                            <TextField
+                                value={email}
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                }}
+                                InputProps={{
+                                    style: {
+                                        borderRadius: "10px",
+                                    }
+                                }}
+                                id="outlined-basic"
+                                label="Nombre"
+                                variant="outlined"/>
+                            <TextField
+                                value={password}
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                }}
+                                InputProps={{
+                                    style: {
+                                        borderRadius: "10px",
+                                    }
+                                }}
+                                id="outlined-basic"
+                                label="Email"
+                                variant="outlined"/>
                             <TextField InputProps={{
                                 style: {
                                     borderRadius: "10px",
@@ -112,20 +138,23 @@ export default function Signup() {
                             justifyContent: "center",
                             alignItems: "center"
                         }}>
-                            <Button variant="contained" sx={{
-                                width: "100%",
-                                height: "60px",
-                                textTransform: "capitalize",
-                                color: "white",
-                                backgroundColor: "black",
-                                cursor: "pointer",
-                                fontSize: "16px",
-                                borderRadius: "10px",
-                                "&:hover": {
-                                    backgroundColor: "grey",
-                                    color: "white"
-                                }
-                            }}>Registrarse</Button>
+                            <Button
+                                onClick={() => onCreate()}
+                                variant="contained"
+                                sx={{
+                                    width: "100%",
+                                    height: "60px",
+                                    textTransform: "capitalize",
+                                    color: "white",
+                                    backgroundColor: "black",
+                                    cursor: "pointer",
+                                    fontSize: "16px",
+                                    borderRadius: "10px",
+                                    "&:hover": {
+                                        backgroundColor: "grey",
+                                        color: "white"
+                                    }
+                                }}>Registrarse</Button>
                         </Box>
                     </Box>
                     <Divider sx={{display: "flex", width: "80%", justifyContent: "center", alignItems: "center"}}
@@ -154,20 +183,21 @@ export default function Signup() {
                                 color: "white"
                             }
                         }} startIcon={googleIcon} onClick={() => signIn()}>Ingresar Con Google</Button>
-                        <Button sx={{
-                            width: "100%",
-                            textTransform: "capitalize",
-                            color: "black",
-                            padding: "10px 20px",
-                            border: "0.5px solid #616161",
-                            borderRadius: "4px",
-                            cursor: "pointer",
-                            fontSize: "16px",
-                            "&:hover": {
-                                backgroundColor: "grey",
-                                color: "white"
-                            }
-                        }} startIcon={facebookIcon} onClick={() => signIn()}>Ingresar Con Facebook</Button>
+                        <Button
+                            sx={{
+                                width: "100%",
+                                textTransform: "capitalize",
+                                color: "black",
+                                padding: "10px 20px",
+                                border: "0.5px solid #616161",
+                                borderRadius: "4px",
+                                cursor: "pointer",
+                                fontSize: "16px",
+                                "&:hover": {
+                                    backgroundColor: "grey",
+                                    color: "white"
+                                }
+                            }} startIcon={facebookIcon} onClick={() => signIn()}>Ingresar Con Facebook</Button>
                     </Box>
                     <Box sx={{
                         display: "flex", alignItems: "center", gap: "10px"

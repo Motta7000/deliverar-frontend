@@ -5,9 +5,14 @@ import {signIn, signOut, useSession} from "next-auth/react";
 import Link from "next/link";
 import NextLink from "next/link";
 import {router} from "next/client";
+import {SetStateAction, useState} from "react";
 
 export default function Login() {
     const {data: session} = useSession();
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
     console.log(session)
     const googleIcon = (
         <Icon sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
@@ -19,6 +24,13 @@ export default function Login() {
             <img alt="edit" src="/images/facebook-icon.svg" style={{width: "100%", height: "100%"}}/>
         </Icon>
     );
+
+    const onLogin = () => {
+        console.log("email: ", email)
+        console.log("password: ", password)
+        console.log("login")
+    }
+
     return (
         <Box sx={{
             display: "flex",
@@ -89,17 +101,32 @@ export default function Login() {
                             noValidate
                             autoComplete="off"
                         >
-                            <TextField InputProps={{
-                                style: {
-                                    borderRadius: "10px",
-                                }
-                            }} id="outlined-basic" label="Email"
-                                       variant="outlined"/>
-                            <TextField InputProps={{
-                                style: {
-                                    borderRadius: "10px",
-                                }
-                            }} id="outlined-basic" label="Contraseña" variant="outlined"/>
+                            <TextField
+                                value={email}
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                }}
+                                InputProps={{
+                                    style: {
+                                        borderRadius: "10px",
+                                    }
+                                }}
+                                id="outlined-basic"
+                                label="Email"
+                                variant="outlined"/>
+                            <TextField
+                                value={password}
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                }}
+                                InputProps={{
+                                    style: {
+                                        borderRadius: "10px",
+                                    }
+                                }}
+                                id="outlined-basic"
+                                label="Contraseña"
+                                variant="outlined"/>
                         </Box>
                         <Box sx={{display: "flex", width: "80%"}}>
                             <Button variant="text" sx={{
@@ -113,20 +140,23 @@ export default function Login() {
                             justifyContent: "center",
                             alignItems: "center"
                         }}>
-                            <Button variant="contained" sx={{
-                                width: "100%",
-                                height: "60px",
-                                textTransform: "capitalize",
-                                color: "white",
-                                backgroundColor: "black",
-                                borderRadius: "10px",
-                                cursor: "pointer",
-                                fontSize: "16px",
-                                "&:hover": {
-                                    backgroundColor: "grey",
-                                    color: "white"
-                                }
-                            }}>Continuar</Button>
+                            <Button
+                                onClick={() => onLogin}
+                                variant="contained"
+                                sx={{
+                                    width: "100%",
+                                    height: "60px",
+                                    textTransform: "capitalize",
+                                    color: "white",
+                                    backgroundColor: "black",
+                                    borderRadius: "10px",
+                                    cursor: "pointer",
+                                    fontSize: "16px",
+                                    "&:hover": {
+                                        backgroundColor: "grey",
+                                        color: "white"
+                                    }
+                                }}>Continuar</Button>
                         </Box>
                     </Box>
                     <Divider sx={{display: "flex", width: "80%", justifyContent: "center", alignItems: "center"}}
