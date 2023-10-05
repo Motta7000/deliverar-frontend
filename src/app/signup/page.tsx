@@ -1,18 +1,24 @@
 "use client";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Typography, Box, Icon, TextField, Button} from "@mui/material"
 import {signIn, useSession} from "next-auth/react";
 import Divider from "@mui/material/Divider";
-import NextLink from "next/link";
 import Link from "next/link";
+import {useRouter} from "next/navigation";
 
 export default function Signup() {
+    const router = useRouter()
     const {data: session} = useSession();
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [name, setName] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [errors, setErrors] = useState({
+        name: false,
+        email: false,
+        password: false,
+    });
 
-    console.log(session)
     const googleIcon = (
         <Icon sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
             <img alt="edit" src="/images/google-icon.svg" style={{width: "100%", height: "100%"}}/>
@@ -24,10 +30,44 @@ export default function Signup() {
         </Icon>
     );
 
+    function isValidEmail(email: string) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    const handleNameChange = (e: { target: { value: any; }; }) => {
+        const newName = e.target.value;
+        setName(newName);
+        setErrors({...errors, email: !newName});
+    };
+
+    const handleEmailChange = (e: { target: { value: any; }; }) => {
+        const newEmail = e.target.value;
+        setEmail(newEmail);
+        setErrors({...errors, email: !newEmail});
+    };
+
+    const handlePasswordChange = (e: { target: { value: any; }; }) => {
+        const newPassword = e.target.value;
+        setPassword(newPassword);
+        setErrors({...errors, password: !newPassword});
+    };
+
     const onCreate = () => {
-        console.log("email: ", email)
-        console.log("password: ", password)
-        console.log("create")
+        if (isValidEmail(email) && !!password && !!name) {
+            setErrors({
+                name: false,
+                email: false,
+                password: false,
+            });
+            router.push("/login")
+        } else {
+            setErrors({
+                name: !name,
+                email: !email,
+                password: !password,
+            });
+        }
     }
 
     return (
@@ -101,10 +141,8 @@ export default function Signup() {
                             autoComplete="off"
                         >
                             <TextField
-                                value={email}
-                                onChange={(e) => {
-                                    setEmail(e.target.value);
-                                }}
+                                value={name}
+                                onChange={handleNameChange}
                                 InputProps={{
                                     style: {
                                         borderRadius: "10px",
@@ -112,12 +150,13 @@ export default function Signup() {
                                 }}
                                 id="outlined-basic"
                                 label="Nombre"
-                                variant="outlined"/>
+                                variant="outlined"
+                                error={errors.name}
+                                helperText={errors.name ? 'Por favor ingresar un nombre.' : ''}
+                            />
                             <TextField
-                                value={password}
-                                onChange={(e) => {
-                                    setPassword(e.target.value);
-                                }}
+                                value={email}
+                                onChange={handleEmailChange}
                                 InputProps={{
                                     style: {
                                         borderRadius: "10px",
@@ -125,12 +164,19 @@ export default function Signup() {
                                 }}
                                 id="outlined-basic"
                                 label="Email"
-                                variant="outlined"/>
-                            <TextField InputProps={{
-                                style: {
-                                    borderRadius: "10px",
-                                }
-                            }} id="outlined-basic" label="Contraseña" variant="outlined"/>
+                                variant="outlined"
+                                error={errors.password}
+                                helperText={errors.password ? 'Por favor ingresar un email.' : ''}/>
+                            <TextField
+                                value={password}
+                                onChange={handlePasswordChange}
+                                InputProps={{
+                                    style: {
+                                        borderRadius: "10px",
+                                    }
+                                }} id="outlined-basic" label="Contraseña" variant="outlined"
+                                error={errors.password}
+                                helperText={errors.password ? 'Por favor ingresar una contraseña.' : ''}/>
                         </Box>
                         <Box sx={{
                             display: "flex",

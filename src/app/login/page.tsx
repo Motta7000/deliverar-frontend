@@ -1,19 +1,22 @@
 "use client"
+import React, {useState} from "react";
 import {Box, Typography, TextField, Button, Icon} from '@mui/material'
 import Divider from '@mui/material/Divider';
-import {signIn, signOut, useSession} from "next-auth/react";
+import {signIn, useSession} from "next-auth/react";
 import Link from "next/link";
-import NextLink from "next/link";
-import {router} from "next/client";
-import {SetStateAction, useState} from "react";
+import {useRouter} from "next/navigation";
 
 export default function Login() {
+    const router = useRouter()
     const {data: session} = useSession();
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [errors, setErrors] = useState({
+        email: false,
+        password: false,
+    });
 
-    console.log(session)
     const googleIcon = (
         <Icon sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
             <img alt="edit" src="/images/google-icon.svg" style={{width: "100%", height: "100%"}}/>
@@ -25,10 +28,36 @@ export default function Login() {
         </Icon>
     );
 
+    function isValidEmail(email: string) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    const handleEmailChange = (e: { target: { value: any; }; }) => {
+        const newEmail = e.target.value;
+        setEmail(newEmail);
+        setErrors({...errors, email: !newEmail});
+    };
+
+    const handlePasswordChange = (e: { target: { value: any; }; }) => {
+        const newPassword = e.target.value;
+        setPassword(newPassword);
+        setErrors({...errors, password: !newPassword});
+    };
+
     const onLogin = () => {
-        console.log("email: ", email)
-        console.log("password: ", password)
-        console.log("login")
+        if (isValidEmail(email) && !!password) {
+            setErrors({
+                email: false,
+                password: false,
+            });
+            router.push("/")
+        } else {
+            setErrors({
+                email: !email,
+                password: !password,
+            });
+        }
     }
 
     return (
@@ -103,9 +132,7 @@ export default function Login() {
                         >
                             <TextField
                                 value={email}
-                                onChange={(e) => {
-                                    setEmail(e.target.value);
-                                }}
+                                onChange={handleEmailChange}
                                 InputProps={{
                                     style: {
                                         borderRadius: "10px",
@@ -113,12 +140,13 @@ export default function Login() {
                                 }}
                                 id="outlined-basic"
                                 label="Email"
-                                variant="outlined"/>
+                                variant="outlined"
+                                error={errors.email}
+                                helperText={errors.email ? 'Por favor ingresar un email valido.' : ''}
+                            />
                             <TextField
                                 value={password}
-                                onChange={(e) => {
-                                    setPassword(e.target.value);
-                                }}
+                                onChange={handlePasswordChange}
                                 InputProps={{
                                     style: {
                                         borderRadius: "10px",
@@ -126,13 +154,16 @@ export default function Login() {
                                 }}
                                 id="outlined-basic"
                                 label="Contraseña"
-                                variant="outlined"/>
+                                variant="outlined"
+                                error={errors.password}
+                                helperText={errors.password ? 'Por favor ingresar una contraseña valida.' : ''}
+                            />
                         </Box>
                         <Box sx={{display: "flex", width: "80%"}}>
-                            <Button variant="text" sx={{
-                                textTransform: 'none', marginLeft: "auto"
-                            }}>Olvido su
-                                contraseña?</Button>
+                            <Button href="/reset" variant="text"
+                                    sx={{textTransform: 'none', marginLeft: "auto"}}>
+                                Olvido su contraseña?
+                            </Button>
                         </Box>
                         <Box sx={{
                             display: "flex",
@@ -141,7 +172,7 @@ export default function Login() {
                             alignItems: "center"
                         }}>
                             <Button
-                                onClick={() => onLogin}
+                                onClick={() => onLogin()}
                                 variant="contained"
                                 sx={{
                                     width: "100%",
