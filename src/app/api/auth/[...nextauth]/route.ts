@@ -50,12 +50,26 @@ const handler = NextAuth({
         }),
     ],
     //Add custom values into the session, custom attributes about the user for example
-    /*callbacks: {
-        session: async ({session}) => {
-            session.customValue = new Date().toISOString();
-            return Promise.resolve(session);
+    callbacks: {
+        async redirect({url, baseUrl}) {
+            // Allows relative callback URLs
+            if (url.startsWith("/")) return `${baseUrl}${url}`
+            // Allows callback URLs on the same origin
+            else if (new URL(url).origin === baseUrl) return url
+            return baseUrl
+        }
+        /*async signIn(user, account, profile) {
+            return user;
         },
-    },*/
+        async session(session, user) {
+            // You can manipulate the session object here
+            return session;
+        },
+        async jwt(token, user) {
+            // You can manipulate the JWT token here
+            return token;
+        },*/
+    }
 });
 
 export {handler as GET, handler as POST};

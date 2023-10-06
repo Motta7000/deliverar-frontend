@@ -1,10 +1,12 @@
 "use client";
 import React, {useState} from "react";
-import {Typography, Box, Icon, TextField, Button} from "@mui/material"
+import {Typography, Box, Icon, TextField, Button, IconButton} from "@mui/material"
 import {signIn, useSession} from "next-auth/react";
 import Divider from "@mui/material/Divider";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
+import {Modal} from "@mui/base";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function Signup() {
     const router = useRouter()
@@ -18,6 +20,7 @@ export default function Signup() {
         email: false,
         password: false,
     });
+    const [openPopup, setOpenPopup] = useState(false);
 
     const googleIcon = (
         <Icon sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
@@ -53,21 +56,34 @@ export default function Signup() {
         setErrors({...errors, password: !newPassword});
     };
 
+    const handleOpenPopup = () => {
+        setOpenPopup(true);
+    };
+
+    const handleClosePopup = () => {
+        setOpenPopup(false);
+        router.push("/login");
+    };
+
     const onCreate = () => {
-        if (isValidEmail(email) && !!password && !!name) {
-            setErrors({
-                name: false,
-                email: false,
-                password: false,
-            });
-            router.push("/login")
-        } else {
+        if (!name || !email || !password || password.length < 7 || !isValidEmail(email)) {
             setErrors({
                 name: !name,
                 email: !email,
                 password: !password,
             });
+            setOpenPopup(false)
+        } else {
+            setOpenPopup(true)
         }
+    }
+
+    const onLoginWithGoogle = async () => {
+        await signIn('google', {callbackUrl: '/dashboard'});
+    }
+
+    const onLoginWithFacebook = async () => {
+        await signIn('facebook', {callbackUrl: '/dashboard'});
     }
 
     return (
@@ -177,7 +193,7 @@ export default function Signup() {
                                     }
                                 }} id="outlined-basic" label="Contraseña" variant="outlined"
                                 error={errors.password}
-                                helperText={errors.password ? 'Por favor ingresar una contraseña.' : ''}/>
+                                helperText={errors.password ? 'La contraseña debe contener un minimo de 8 caracteres' : ''}/>
                         </Box>
                         <Box sx={{
                             display: "flex",
@@ -202,6 +218,59 @@ export default function Signup() {
                                         color: "white"
                                     }
                                 }}>Registrarse</Button>
+
+                            {/* Popup component */}
+                            <Modal
+                                open={openPopup}
+                                onClose={handleClosePopup}
+                                aria-labelledby="popup-title"
+                                aria-describedby="popup-description"
+                            >
+                                <Box
+                                    sx={{
+                                        position: "absolute",
+                                        top: "50%",
+                                        left: "50%",
+                                        transform: "translate(-50%, -50%)",
+                                        width: "50%",
+                                        bgcolor: "white",
+                                        borderRadius: "10px",
+                                        border: "1px solid #000",
+                                        minHeight: "200px",
+                                        p: 2,
+                                    }}
+                                >
+                                    <IconButton
+                                        edge="end"
+                                        color="inherit"
+                                        onClick={handleClosePopup}
+                                        sx={{position: "absolute", top: "8px", right: "15px", color: "black"}}
+                                    >
+                                        <CloseIcon/>
+                                    </IconButton>
+                                    <Typography id="popup-title" variant="h6" component="div"
+                                                sx={{color: "black", marginBottom: "10px"}}>
+                                        Ya casi sos parte de nuestra comunidad!
+                                    </Typography>
+                                    <Typography id="popup-description" sx={{color: "black"}}>
+                                        Para comenzar a disfrutar de nuestros servicios, te enviamos
+                                        un email de confirmacion para que puedas verificar tu cuenta.
+                                    </Typography>
+                                </Box>
+                            </Modal>
+                            {/* Backdrop filter when modal is open */}
+                            {openPopup && (
+                                <Box
+                                    sx={{
+                                        position: "fixed",
+                                        top: 0,
+                                        left: 0,
+                                        width: "100%",
+                                        height: "100%",
+                                        backdropFilter: "blur(5px)",
+                                    }}
+                                />
+                            )}
                         </Box>
                     </Box>
                     <Divider sx={{display: "flex", width: "80%", justifyContent: "center", alignItems: "center"}}
@@ -229,7 +298,7 @@ export default function Signup() {
                                 backgroundColor: "grey",
                                 color: "white"
                             }
-                        }} startIcon={googleIcon} onClick={() => signIn()}>Ingresar Con Google</Button>
+                        }} startIcon={googleIcon} onClick={() => onLoginWithGoogle()}>Ingresar Con Google</Button>
                         <Button
                             sx={{
                                 width: "100%",
@@ -244,7 +313,8 @@ export default function Signup() {
                                     backgroundColor: "grey",
                                     color: "white"
                                 }
-                            }} startIcon={facebookIcon} onClick={() => signIn()}>Ingresar Con Facebook</Button>
+                            }} startIcon={facebookIcon} onClick={() => onLoginWithFacebook()}>Ingresar Con
+                            Facebook</Button>
                     </Box>
                     <Box sx={{
                         display: "flex", alignItems: "center", gap: "10px"

@@ -48,43 +48,28 @@ export default function Login() {
     };
 
     const onLogin = async () => {
-        if (isValidEmail(email) && !!password) {
-            setErrors({
-                email: false,
-                password: false,
-            });
-            const result = await signIn('credentials', {
-                redirect: true,
-                email,
-                password,
-            });
-            if (!result.error) {
-                router.push("/dashboard")
-            }
-        } else {
-            setErrors({
-                email: !email,
-                password: !password,
-            });
+        if (!isValidEmail(email)) {
+            setErrors({...errors, email: true});
+            return;
         }
+        if (password.length < 7) {
+            setErrors({...errors, password: true});
+            return;
+        }
+        await signIn('credentials', {
+            email: email,
+            password: password,
+            callbackUrl: '/dashboard'
+        });
     }
+
 
     const onLoginWithGoogle = async () => {
-        const result = await signIn('google', {
-            redirect: true,
-        });
-        if (!result.error) {
-            router.push("/dashboard")
-        }
-    }
+        await signIn('google', {callbackUrl: '/dashboard'});
+    };
 
     const onLoginWithFacebook = async () => {
-        const result = await signIn('facebook', {
-            redirect: true,
-        });
-        if (!result.error) {
-            router.push("/dashboard")
-        }
+        await signIn('facebook', {callbackUrl: '/dashboard'});
     }
 
     return (
@@ -184,7 +169,7 @@ export default function Login() {
                                 label="Contraseña"
                                 variant="outlined"
                                 error={errors.password}
-                                helperText={errors.password ? 'Por favor ingresar una contraseña valida.' : ''}
+                                helperText={errors.password ? 'La contraseña debe contener un minimo de 8 caracteres.' : ''}
                             />
                         </Box>
                         <Box sx={{display: "flex", width: "80%"}}>
