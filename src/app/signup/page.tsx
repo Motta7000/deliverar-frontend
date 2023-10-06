@@ -168,6 +168,7 @@ export default function Signup() {
                                 error={errors.password}
                                 helperText={errors.password ? 'Por favor ingresar un email.' : ''}/>
                             <TextField
+                                type="password"
                                 value={password}
                                 onChange={handlePasswordChange}
                                 InputProps={{

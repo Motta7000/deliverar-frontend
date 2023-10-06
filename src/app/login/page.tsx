@@ -8,7 +8,9 @@ import {useRouter} from "next/navigation";
 
 export default function Login() {
     const router = useRouter()
-    const {data: session} = useSession();
+    const {data: session, status} = useSession();
+    console.log("session data", session)
+    console.log("session status", status)
 
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -45,18 +47,43 @@ export default function Login() {
         setErrors({...errors, password: !newPassword});
     };
 
-    const onLogin = () => {
+    const onLogin = async () => {
         if (isValidEmail(email) && !!password) {
             setErrors({
                 email: false,
                 password: false,
             });
-            router.push("/")
+            const result = await signIn('credentials', {
+                redirect: true,
+                email,
+                password,
+            });
+            if (!result.error) {
+                router.push("/dashboard")
+            }
         } else {
             setErrors({
                 email: !email,
                 password: !password,
             });
+        }
+    }
+
+    const onLoginWithGoogle = async () => {
+        const result = await signIn('google', {
+            redirect: true,
+        });
+        if (!result.error) {
+            router.push("/dashboard")
+        }
+    }
+
+    const onLoginWithFacebook = async () => {
+        const result = await signIn('facebook', {
+            redirect: true,
+        });
+        if (!result.error) {
+            router.push("/dashboard")
         }
     }
 
@@ -152,6 +179,7 @@ export default function Login() {
                                         borderRadius: "10px",
                                     }
                                 }}
+                                type="password"
                                 id="outlined-basic"
                                 label="Contraseña"
                                 variant="outlined"
@@ -215,10 +243,8 @@ export default function Login() {
                                 backgroundColor: "grey",
                                 color: "white"
                             }
-                        }} startIcon={googleIcon} type="button" onClick={async () => {
-                            await signIn()
-                            await router.push("/")
-                        }}>Ingresar Con Google</Button>
+                        }} startIcon={googleIcon} type="button" onClick={() => onLoginWithGoogle()}>Ingresar Con
+                            Google</Button>
                         <Button sx={{
                             width: "100%",
                             textTransform: "capitalize",
@@ -232,7 +258,7 @@ export default function Login() {
                                 backgroundColor: "grey",
                                 color: "white"
                             }
-                        }} startIcon={facebookIcon} onClick={() => signIn()}>Ingresar Con Facebook</Button>
+                        }} startIcon={facebookIcon} onClick={() => onLoginWithFacebook()}>Ingresar Con Facebook</Button>
                     </Box>
                     <Box sx={{display: "flex", alignItems: "center", gap: "10px"}}>
                         <Typography sx={{textTransform: "capitalize", color: "black", fontSize: "15px"}}>Nuevo
