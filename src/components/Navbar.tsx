@@ -1,11 +1,9 @@
 "use client"
-import NextLink from 'next/link';
 import {AppBar, Toolbar, Typography, Link, Box, Button, Avatar} from '@mui/material';
 import {signOut, useSession} from "next-auth/react";
 
 export const Navbar = () => {
     const {data: session} = useSession();
-
     return (
         <AppBar elevation={0}>
             <Toolbar>

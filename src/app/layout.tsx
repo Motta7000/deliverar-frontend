@@ -1,8 +1,8 @@
 import type {Metadata} from 'next'
+import React, {ReactNode} from 'react';
 import {Inter} from 'next/font/google'
 import ProvidersWrapper from './ProvidersWrapper'
 import {Navbar} from "@/components";
-import {ReactNode} from "react";
 
 const inter = Inter({subsets: ['latin']})
 
