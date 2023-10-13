@@ -1,6 +1,7 @@
 "use client"
-import {AppBar, Toolbar, Typography, Link, Box, Button, Avatar} from '@mui/material';
+import {AppBar, Toolbar, Typography, Link, Box, Button, Avatar, Divider} from '@mui/material';
 import {signOut, useSession} from "next-auth/react";
+import React from "react";
 
 export const Navbar = () => {
     const {data: session} = useSession();
@@ -19,6 +20,24 @@ export const Navbar = () => {
                                 gap: "10px",
                                 marginLeft: "auto"
                             }}>
+                            <Button href="/dashboard" variant="text" sx={{
+                                color: "white", backgroundColor: "black", textTransform: "capitalize", borderRadius: "10px", "&:hover": {
+                                    backgroundColor: "grey",
+                                    color: "white"
+                                }
+                            }}>
+                                Dashboard
+                            </Button>
+                            <Divider orientation="vertical" flexItem/>
+                            <Button href="/orders" variant="text" sx={{
+                                color: "white", backgroundColor: "black", textTransform: "capitalize", borderRadius: "10px", "&:hover": {
+                                    backgroundColor: "grey",
+                                    color: "white"
+                                }
+                            }}>
+                                Mis Pedidos
+                            </Button>
+                            <Divider orientation="vertical" flexItem/>
                             <p>{session?.user?.name}</p>
                             <Avatar src={session?.user?.image} alt="user-avatar"/>
                             <Button
