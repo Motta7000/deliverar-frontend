@@ -1,13 +1,9 @@
 "use client"
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {Box, Typography} from '@mui/material'
-import {useSession} from "next-auth/react";
-import {useRouter} from "next/navigation";
 import VideoPlayer from "@/components/VideoPlayer";
-import {Navbar} from "@/components";
 import RobotTracker from "@/components/RobotTracker";
 
-// Create an array of 10 items for the list that are objects with a title and description, make the images be in horizontal mode
 const items = [
     {
         title: "Item 1",
@@ -73,21 +69,12 @@ const items = [
 
 
 export default function Dashboard() {
-    const router = useRouter()
-    const {data: session} = useSession();
     const [selectedRobot, setSelectedRobot] = useState<number>(0)
 
     const onSelect = (index: number) => {
         setSelectedRobot(index)
         console.log("Selected robot", index)
     }
-
-    useEffect(() => {
-        /*if (!session) {
-            router.push("/landing")
-        }*/
-        console.log("useeffect video: ", items[selectedRobot].videoUrl)
-    }, [session])
 
     return (
         <Box sx={{

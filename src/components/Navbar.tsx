@@ -1,16 +1,34 @@
 "use client"
-import {AppBar, Toolbar, Typography, Link, Box, Button, Avatar, Divider} from '@mui/material';
+import React, {useEffect} from "react";
+import {AppBar, Toolbar, Typography, Link, Box, Button, Avatar, Divider, IconButton} from '@mui/material';
 import {signOut, useSession} from "next-auth/react";
-import React from "react";
+import LogoutIcon from '@mui/icons-material/Logout';
+import {useRouter, usePathname} from "next/navigation";
 
 export const Navbar = () => {
-    const {data: session} = useSession();
+    const router = useRouter()
+    const pathname = usePathname()
+    const {data: session, status} = useSession();
+
+    /* useEffect(() => {
+         if (status === "authenticated") {
+             router.push("/dashboard")
+         }
+         if (status === "unauthenticated" && pathname !== "/login" || status === "unauthenticated" && pathname !== "/signup" || status === "unauthenticated" && pathname !== "/reset") {
+             router.push("/")
+         }
+     }, [session]);*/
+
     return (
         <AppBar elevation={0}>
             <Toolbar>
-                <Link display={'flex'} alignItems={'center'} href='/'>
+                {session?.user ? (
                     <Typography variant='h6' color={'white'}> DeliverAr </Typography>
-                </Link>
+                ) : (
+                    <Link display={'flex'} alignItems={'center'} href='/'>
+                        <Typography variant='h6' color={'white'}> DeliverAr </Typography>
+                    </Link>
+                )}
                 {session?.user ? (
                         <Box
                             sx={{
@@ -21,8 +39,8 @@ export const Navbar = () => {
                                 marginLeft: "auto"
                             }}>
                             <Button href="/dashboard" variant="text" sx={{
-                                color: "white", backgroundColor: "black", textTransform: "capitalize", borderRadius: "10px", "&:hover": {
-                                    backgroundColor: "grey",
+                                color: "black", backgroundColor: "white", textTransform: "capitalize", borderRadius: "10px", "&:hover": {
+                                    backgroundColor: "black",
                                     color: "white"
                                 }
                             }}>
@@ -30,16 +48,14 @@ export const Navbar = () => {
                             </Button>
                             <Divider orientation="vertical" flexItem/>
                             <Button href="/orders" variant="text" sx={{
-                                color: "white", backgroundColor: "black", textTransform: "capitalize", borderRadius: "10px", "&:hover": {
-                                    backgroundColor: "grey",
+                                color: "black", backgroundColor: "white", textTransform: "capitalize", borderRadius: "10px", "&:hover": {
+                                    backgroundColor: "black",
                                     color: "white"
                                 }
                             }}>
                                 Mis Pedidos
                             </Button>
                             <Divider orientation="vertical" flexItem/>
-                            <p>{session?.user?.name}</p>
-                            <Avatar src={session?.user?.image} alt="user-avatar"/>
                             <Button
                                 sx={{
                                     textTransform: "capitalize",
@@ -47,16 +63,23 @@ export const Navbar = () => {
                                     color: "white",
                                     borderRadius: "10px",
                                     "&:hover": {
-                                        backgroundColor: "grey",
-                                        color: "white"
+                                        backgroundColor: "white",
+                                        color: "black"
                                     }
                                 }}
-                                onClick={async () => {
-                                    await signOut({
-                                        callbackUrl: "/"
-                                    })
-                                }}
-                                type="button">Cerrar Sesion</Button>
+                                href="/profile"
+                                type="button">
+                                <Box sx={{display: "flex", gap: "10px", justifyContent: "center", alignItems: "center"}}>
+                                    <p>{session?.user?.name}</p>
+                                    <Avatar src={session?.user?.image} alt="user-avatar"/>
+                                </Box></Button>
+                            <IconButton onClick={async () => {
+                                await signOut({
+                                    callbackUrl: "/"
+                                })
+                            }}>
+                                <LogoutIcon/>
+                            </IconButton>
                         </Box>
                     ) :
                     (
