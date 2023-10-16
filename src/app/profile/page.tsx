@@ -1,8 +1,6 @@
 "use client"
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {Avatar, Box, Button, TextField, Typography} from '@mui/material'
-import VideoPlayer from "@/components/VideoPlayer";
-import RobotTracker from "@/components/RobotTracker";
 import {useSession} from "next-auth/react";
 
 //Create an array with user data
@@ -18,13 +16,17 @@ const userData = {
 
 export default function Orders() {
     const {data: session} = useSession();
-    const [name, setName] = useState('');
-    const [password, setPassword] = useState('');
-    const onChangeName = (event) => {
+    const [name, setName] = useState<string | undefined>(session?.user?.name ? session?.user?.name : '');
+    const [password, setPassword] = useState<string | undefined>(session?.user?.password ? session?.user?.password : '');
+    const [email, setEmail] = useState<string | undefined>(session?.user?.email ? session?.user?.email : '');
+    const onChangeName = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setName(event.target.value);
     };
-    const onChangePassword = (event) => {
+    const onChangePassword = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setPassword(event.target.value);
+    };
+    const onChangEmail = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setEmail(event.target.value);
     };
 
     return (
@@ -33,6 +35,8 @@ export default function Orders() {
             width: "100%",
             height: "100vh",
             backgroundColor: "white",
+            padding: "10px",
+            gap: "10px"
         }}>
             <Box
                 sx={{
@@ -42,7 +46,7 @@ export default function Orders() {
                     overflow: "auto",
                     padding: "10px",
                     gap: "30px",
-                    backgroundColor: "red"
+                    backgroundColor: "grey"
                 }}>
                 <Box
                     sx={{
@@ -54,7 +58,7 @@ export default function Orders() {
                         padding: "20px 0px"
                     }}>
                     <Box sx={{display: "flex"}}>
-                        <Typography sx={{fontSize: "20px"}}>{session?.user?.name}</Typography>
+                        <Typography sx={{fontSize: "20px", color: "black"}}>{session?.user?.name}</Typography>
                     </Box>
                     <Avatar src={session?.user?.image} alt="user-avatar" sx={{width: "100px", height: "100px"}}/>
                     <Button sx={{
@@ -71,7 +75,24 @@ export default function Orders() {
                             color: "white"
                         }
                     }}>Subir Imagen</Button>
-                    <Typography>Afiliado desde: {userData.createdAt}</Typography>
+                    <Typography sx={{color: "black"}}>Usuario creado: {userData.createdAt}</Typography>
+                    <Button sx={{
+                        border: "red 2px solid",
+                        marginTop: "auto",
+                        width: "60%",
+                        height: "50px",
+                        textTransform: "capitalize",
+                        color: "white",
+                        backgroundColor: "black",
+                        borderRadius: "10px",
+                        cursor: "pointer",
+                        fontSize: "16px",
+                        "&:hover": {
+                            backgroundColor: "red",
+                            color: "white",
+                            border: "none"
+                        }
+                    }}>Eliminar Cuenta</Button>
                 </Box>
             </Box>
             <Box sx={{display: "flex", width: "80%"}}>
@@ -80,33 +101,60 @@ export default function Orders() {
                         display: "flex",
                         flexDirection: "column",
                         width: "100%",
-                        padding: "2px",
-                        gap: "2px",
-                        backgroundColor: "blue"
+                        gap: "2px", padding: "10px 0px"
                     }}>
-                    <Typography>Editar Perfil</Typography>
-                    <Typography>Nombre y Apellido</Typography>
-                    <TextField
-                        label="Nombre y Apellido"
-                        variant="outlined"
-                        value={name}
-                        onChange={onChangeName}
-                    />
-                    <Typography>Contraseña</Typography>
-                    <TextField
-                        label="Contraseña"
-                        variant="outlined"
-                        value={password}
-                        onChange={onChangePassword}
-                    />
-                    <TextField
-                        label="Email"
-                        variant="outlined"
-                        value={password}
-                        onChange={onChangePassword}
-                    />
-                    <Button>Guardar Cambios</Button>
-                    <Button>Eliminar Cuenta</Button>
+                    <Box sx={{display: "flex"}}>
+                        <Typography sx={{fontSize: "30px", color: "black"}}>Editar Perfil</Typography>
+                    </Box>
+                    <Box
+                        sx={{display: "flex", flexDirection: "column", gap: "10px", padding: "10px", height: "100vh"}}>
+                        <Box sx={{display: "flex", flexDirection: "column", gap: "10px"}}>
+                            <Typography sx={{fontSize: "20px", color: "black"}}>Nombre y Apellido</Typography>
+                            <TextField
+                                label="Nombre y Apellido"
+                                variant="outlined"
+                                value={name}
+                                onChange={(event) => onChangeName(event)}
+                                sx={{width: "30%"}}
+                            />
+                        </Box>
+                        <Box sx={{display: "flex", flexDirection: "column", gap: "10px"}}>
+                            <Typography sx={{fontSize: "20px", color: "black"}}>Email</Typography>
+                            <TextField
+                                label="Email"
+                                variant="outlined"
+                                value={email}
+                                onChange={(event) => onChangEmail(event)}
+                                sx={{width: "30%"}}
+                            />
+                        </Box>
+                        <Box sx={{display: "flex", flexDirection: "column", gap: "10px"}}>
+                            <Typography sx={{fontSize: "20px", color: "black"}}>Contraseña</Typography>
+                            <TextField
+                                type="password"
+                                label="Contraseña"
+                                variant="outlined"
+                                value={password}
+                                onChange={(event) => onChangePassword(event)}
+                                sx={{width: "30%"}}
+                            />
+                        </Box>
+                        <Button sx={{
+                            marginTop: "20px",
+                            width: "13%",
+                            height: "50px",
+                            textTransform: "capitalize",
+                            color: "white",
+                            backgroundColor: "black",
+                            borderRadius: "10px",
+                            cursor: "pointer",
+                            fontSize: "16px",
+                            "&:hover": {
+                                backgroundColor: "grey",
+                                color: "white"
+                            }
+                        }}>Guardar Cambios</Button>
+                    </Box>
                 </Box>
             </Box>
         </Box>

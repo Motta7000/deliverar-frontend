@@ -14,8 +14,8 @@ const handler = NextAuth({
             // e.g. domain, username, password, 2FA token, etc.
             // You can pass any HTML attribute to the <input> tag through the object.
             credentials: {
-                username: {label: "Username", type: "text"},
-                password: {label: "Password", type: "password"}
+                email: {label: "Email", type: "text"},
+                password: {label: "Contraseña", type: "password"}
             },
             async authorize(credentials, req) {
                 // You need to provide your own logic here that takes the credentials
@@ -24,6 +24,13 @@ const handler = NextAuth({
                 // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
                 // You can also use the `req` object to obtain additional parameters
                 // (i.e., the request IP address)
+                const user = {id: "42", name: "Dave", password: "123456", email: "example@gmail.com", role: "cliente"};
+                if (credentials?.email === user.name && credentials?.password === user.password) {
+                    return user;
+                } else {
+                    return null;
+                }
+
                 /*const res = await fetch("/your/endpoint", {
                     method: 'POST',
                     body: JSON.stringify(credentials),
@@ -57,19 +64,25 @@ const handler = NextAuth({
             // Allows callback URLs on the same origin
             else if (new URL(url).origin === baseUrl) return url
             return baseUrl
-        }
+        },
         /*async signIn(user, account, profile) {
             return user;
         },
-        async session(session, user) {
+
+        async session({session, token}) {
             // You can manipulate the session object here
             return session;
         },
-        async jwt(token, user) {
+        async jwt({token, user}) {
             // You can manipulate the JWT token here
             return token;
         },*/
-    }
+    },
+    session: {
+        // Add your session strategy here
+        strategy: "jwt",
+        // Additional session options if needed
+    },
 });
 
 export {handler as GET, handler as POST};

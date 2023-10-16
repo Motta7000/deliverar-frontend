@@ -1,10 +1,7 @@
 import type {Metadata} from 'next'
 import React, {ReactNode} from 'react';
-import {Inter} from 'next/font/google'
 import ProvidersWrapper from './ProvidersWrapper'
 import {Navbar} from "@/components";
-
-const inter = Inter({subsets: ['latin']})
 
 export const metadata: Metadata = {
     title: 'Deliverar',
@@ -16,7 +13,7 @@ export default function RootLayout({children}: {
 }) {
     return (
         <html lang="es">
-        <body className={inter.className}>
+        <body>
         <ProvidersWrapper>
             <Navbar/>
             {children}

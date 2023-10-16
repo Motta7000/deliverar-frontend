@@ -10,15 +10,6 @@ export const Navbar = () => {
     const pathname = usePathname()
     const {data: session, status} = useSession();
 
-    /* useEffect(() => {
-         if (status === "authenticated") {
-             router.push("/dashboard")
-         }
-         if (status === "unauthenticated" && pathname !== "/login" || status === "unauthenticated" && pathname !== "/signup" || status === "unauthenticated" && pathname !== "/reset") {
-             router.push("/")
-         }
-     }, [session]);*/
-
     return (
         <AppBar elevation={0}>
             <Toolbar>
