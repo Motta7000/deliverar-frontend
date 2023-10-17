@@ -1,26 +1,30 @@
 "use client";
-import React, {useState} from "react";
-import {Typography, Box, Icon, TextField, Button, IconButton} from "@mui/material"
+import React, {ChangeEvent, useState} from "react";
+import {Typography, Box, Icon, TextField, Button, IconButton, FormControlLabel, MenuItem, Select} from "@mui/material"
 import {signIn, useSession} from "next-auth/react";
 import Divider from "@mui/material/Divider";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
 import {Modal} from "@mui/base";
 import CloseIcon from "@mui/icons-material/Close";
+import FileUpload from "@/components/FileUpload";
 
 export default function Signup() {
     const router = useRouter()
     const {data: session} = useSession();
 
+    const [userType, setUserType] = useState<string>('client');
     const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [errors, setErrors] = useState({
+    const [errors, setErrors] = useState<Object>({
         name: false,
         email: false,
         password: false,
+        userType: false,
     });
     const [openPopup, setOpenPopup] = useState(false);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
     const googleIcon = (
         <Icon sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
@@ -66,14 +70,25 @@ export default function Signup() {
     };
 
     const onCreate = () => {
+        if (userType === 'provider' && !selectedFile) return setErrors({
+            ...errors,
+            userType: true,
+        });
         if (!name || !email || !password || password.length < 7 || !isValidEmail(email)) {
             setErrors({
+                ...errors,
                 name: !name,
                 email: !email,
                 password: !password,
             });
             setOpenPopup(false)
         } else {
+            setErrors({
+                name: false,
+                email: false,
+                password: false,
+                userType: false,
+            });
             setOpenPopup(true)
         }
     }
@@ -85,6 +100,15 @@ export default function Signup() {
     const onLoginWithFacebook = async () => {
         await signIn('facebook', {callbackUrl: '/dashboard'});
     }
+
+    const handleSelectChange = (event) => {
+        setUserType(event.target.value);
+    };
+
+    const onSelectFile = (file: React.SetStateAction<File | null>) => {
+        setSelectedFile(file);
+        console.log("file", file)
+    };
 
     return (
         <Box sx={{
@@ -194,6 +218,22 @@ export default function Signup() {
                                 }} id="outlined-basic" label="Contraseña" variant="outlined"
                                 error={errors.password}
                                 helperText={errors.password ? 'La contraseña debe contener un minimo de 8 caracteres' : ''}/>
+                            <Select
+                                value={userType}
+                                onChange={handleSelectChange}
+                                sx={{
+                                    boxShadow: 'none',
+                                    '.MuiOutlinedInput-notchedOutline': {
+                                        borderRadius: "10px",
+
+                                    },
+                                }}
+                            >
+                                <MenuItem value="client">Cliente</MenuItem>
+                                <MenuItem value="provider">Proveedor</MenuItem>
+                            </Select>
+                            {userType === 'provider' &&
+                                <FileUpload onSelectFile={onSelectFile}/>}
                         </Box>
                         <Box sx={{
                             display: "flex",
