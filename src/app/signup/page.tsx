@@ -141,19 +141,21 @@ export default function Signup() {
             <Box sx={{
                 display: "flex",
                 width: "50%",
-                height: "100%",
-                alignItems: "flex-end",
+                height: "95%",
+                alignSelf: "flex-end",
                 justifyContent: "flex-start",
             }}>
                 <Box sx={{
                     display: "flex",
                     flexDirection: "column",
                     width: "50%",
+                    height: "100%",
                     backgroundColor: "#FAFAFA",
                     marginLeft: "15px",
                     borderRadius: "24px 24px 0px 0px",
                     alignItems: "center",
                     gap: "30px",
+                    overflow: "auto",
                     padding: "15px"
                 }}>
                     <Box sx={{

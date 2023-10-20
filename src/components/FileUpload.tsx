@@ -19,7 +19,7 @@ const FileUpload = ({onSelectFile}) => {
                 accept=".pdf"
                 type="file" onChange={handleFileChange}/>
             {selectedFile && (
-                <Box sx={{display: "flex", gap: "5px", alignItems: "center"}}>
+                <Box sx={{display: "flex", gap: "5px", alignItems: "flex-start", flexDirection: "column"}}>
                     <Typography sx={{color: "black"}}>
                         Archivo seleccionado:</Typography>
                     <Typography sx={{

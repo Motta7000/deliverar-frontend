@@ -16,7 +16,7 @@ const items = [
         title: "Item 2",
         description: "Description 2",
         image: "/images/background-barrio.png",
-        videoUrl: 'https://www.youtube.com/embed/_140vNR-qMw'
+        videoUrl: 'https://www.youtube.com/embed/DRNXWMcgVbs'
     },
     {
         title: "Item 3",
