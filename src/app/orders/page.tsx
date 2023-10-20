@@ -87,7 +87,7 @@ export default function Orders() {
         <Box sx={{
             display: "flex",
             width: "100%",
-            height: "100vh",
+            height: "100%",
             backgroundColor: "white",
         }}>
             <Box
@@ -117,8 +117,9 @@ export default function Orders() {
                     </Box>
                 </Box>
             </Box>
-            <Box sx={{display: "flex", width: "80%", alignItems: "center", overflow: "auto"}}>
-                <Box sx={{display: "flex", flexDirection: "column", width: "100%", padding: "15px", gap: "5px"}}>
+            <Box sx={{display: "flex", width: "80%", alignItems: "center", overflow: "auto", height: "100%"}}>
+                <Box
+                    sx={{display: "flex", flexDirection: "column", width: "100%", padding: "10px", gap: "5px", height: "100%"}}>
                     {items.map((item, index) => {
                         return (
                             <Box

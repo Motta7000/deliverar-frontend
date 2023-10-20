@@ -1,17 +1,14 @@
 "use client"
-import React, {useEffect} from "react";
+import React from "react";
 import {AppBar, Toolbar, Typography, Link, Box, Button, Avatar, Divider, IconButton} from '@mui/material';
 import {signOut, useSession} from "next-auth/react";
 import LogoutIcon from '@mui/icons-material/Logout';
-import {useRouter, usePathname} from "next/navigation";
 
 export const Navbar = () => {
-    const router = useRouter()
-    const pathname = usePathname()
     const {data: session, status} = useSession();
 
     return (
-        <AppBar elevation={0}>
+        <AppBar position="static" elevation={0}>
             <Toolbar>
                 {session?.user ? (
                     <Typography variant='h6' color={'white'}> DeliverAr </Typography>
@@ -30,7 +27,11 @@ export const Navbar = () => {
                                 marginLeft: "auto"
                             }}>
                             <Button href="/dashboard" variant="text" sx={{
-                                color: "black", backgroundColor: "white", textTransform: "capitalize", borderRadius: "10px", "&:hover": {
+                                color: "black",
+                                backgroundColor: "white",
+                                textTransform: "capitalize",
+                                borderRadius: "10px",
+                                "&:hover": {
                                     backgroundColor: "black",
                                     color: "white"
                                 }
@@ -39,7 +40,11 @@ export const Navbar = () => {
                             </Button>
                             <Divider orientation="vertical" flexItem/>
                             <Button href="/orders" variant="text" sx={{
-                                color: "black", backgroundColor: "white", textTransform: "capitalize", borderRadius: "10px", "&:hover": {
+                                color: "black",
+                                backgroundColor: "white",
+                                textTransform: "capitalize",
+                                borderRadius: "10px",
+                                "&:hover": {
                                     backgroundColor: "black",
                                     color: "white"
                                 }

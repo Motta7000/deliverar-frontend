@@ -29,7 +29,7 @@ export default function Reset() {
         <Box sx={{
             display: "flex",
             width: "100%",
-            height: "100vh",
+            height: "100%",
             backgroundImage: `url("/images/background-barrio.png")`,
             backgroundSize: "cover",
             backgroundPosition: "center"
@@ -37,7 +37,7 @@ export default function Reset() {
             <Box sx={{
                 display: "flex",
                 width: "50%",
-                height: "100vh",
+                height: "100%",
                 alignItems: "center",
                 justifyContent: "flex-end"
             }}>
@@ -60,7 +60,7 @@ export default function Reset() {
             <Box sx={{
                 display: "flex",
                 width: "50%",
-                height: "100vh",
+                height: "100%",
                 alignItems: "center",
                 justifyContent: "flex-start",
             }}>
@@ -68,11 +68,12 @@ export default function Reset() {
                     display: "flex",
                     flexDirection: "column",
                     width: "60%",
-                    height: "30%",
+                    height: "40%",
                     backgroundColor: "#FAFAFA",
                     marginLeft: "15px",
                     borderRadius: "24px 24px",
                     alignItems: "center",
+                    justifyContent: "center",
                     gap: "30px",
                     padding: "15px"
                 }}>

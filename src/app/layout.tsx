@@ -2,6 +2,7 @@ import type {Metadata} from 'next'
 import React, {ReactNode} from 'react';
 import ProvidersWrapper from './ProvidersWrapper'
 import {Navbar} from "@/components";
+import {Box} from "@mui/material";
 
 export const metadata: Metadata = {
     title: 'Deliverar',
@@ -15,8 +16,14 @@ export default function RootLayout({children}: {
         <html lang="es">
         <body>
         <ProvidersWrapper>
-            <Navbar/>
-            {children}
+            <Navbar></Navbar>
+            <Box sx={{
+                overflow: 'auto',
+                height: 'calc(100vh - 20px - 64px)',
+                width: '100%',
+            }}>
+                {children}
+            </Box>
         </ProvidersWrapper>
         </body>
         </html>

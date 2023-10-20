@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import {Box, Typography} from '@mui/material'
 import VideoPlayer from "@/components/VideoPlayer";
 import RobotTracker from "@/components/RobotTracker";
+import Paper from "@mui/material/Paper";
 
 const items = [
     {
@@ -80,7 +81,7 @@ export default function Dashboard() {
         <Box sx={{
             display: "flex",
             width: "100%",
-            height: "100vh",
+            height: "100%",
             backgroundColor: "white",
         }}>
             <Box
@@ -115,9 +116,26 @@ export default function Dashboard() {
                     )
                 })}
             </Box>
-            <Box sx={{display: "flex", width: "80%", alignItems: "center"}}>
-                <Box sx={{display: "flex", flexDirection: "column", width: "100%", padding: "2px", gap: "2px"}}>
-                    <VideoPlayer videoUrl={items[selectedRobot].videoUrl} title={items[selectedRobot].title}/>
+            <Box sx={{display: "flex", width: "80%", alignItems: "center", height: "100%"}}>
+                <Box
+                    sx={{display: "flex", flexDirection: "column", width: "100%", padding: "2px", gap: "2px", height: "100%"}}>
+                    <Paper sx={{
+                        display: 'flex',
+                        overflow: 'auto',
+                        height: "100%"
+                    }}>
+                        <iframe
+                            title={items[selectedRobot].title}
+                            src={items[selectedRobot].videoUrl}
+                            frameBorder="0"
+                            allowFullScreen
+                            style={{
+                                width: "100%",
+                                height: "100%"
+                            }}
+                        ></iframe>
+                    </Paper>
+                    {/*<VideoPlayer videoUrl={items[selectedRobot].videoUrl} title={items[selectedRobot].title}/>*/}
                     <Box
                         sx={{display: "flex", justifyContent: "center", alignItems: "center", height: "4vh", gap: "5px", margin: "5px"}}>
                         <Typography sx={{color: "black", whiteSpace: "nowrap"}}>Robot Tracker</Typography>

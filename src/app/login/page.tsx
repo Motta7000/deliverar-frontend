@@ -4,10 +4,8 @@ import {Box, Typography, TextField, Button, Icon} from '@mui/material'
 import Divider from '@mui/material/Divider';
 import {signIn, useSession} from "next-auth/react";
 import Link from "next/link";
-import {useRouter} from "next/navigation";
 
 export default function Login() {
-    const router = useRouter()
     const {data: session, status} = useSession();
     console.log("session data", session)
     console.log("session status", status)
@@ -22,11 +20,6 @@ export default function Login() {
     const googleIcon = (
         <Icon sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
             <img alt="edit" src="/images/google-icon.svg" style={{width: "100%", height: "100%"}}/>
-        </Icon>
-    );
-    const facebookIcon = (
-        <Icon sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-            <img alt="edit" src="/images/facebook-icon.svg" style={{width: "100%", height: "100%"}}/>
         </Icon>
     );
 
@@ -68,15 +61,11 @@ export default function Login() {
         await signIn('google', {callbackUrl: '/dashboard'});
     };
 
-    const onLoginWithFacebook = async () => {
-        await signIn('facebook', {callbackUrl: '/dashboard'});
-    }
-
     return (
         <Box sx={{
             display: "flex",
             width: "100%",
-            height: "100vh",
+            height: "100%",
             backgroundImage: `url("/images/background-barrio.png")`,
             backgroundSize: "cover",
             backgroundPosition: "center"
@@ -84,7 +73,7 @@ export default function Login() {
             <Box sx={{
                 display: "flex",
                 width: "50%",
-                height: "100vh",
+                height: "100%",
                 alignItems: "center",
                 justifyContent: "flex-end"
             }}>
@@ -107,7 +96,7 @@ export default function Login() {
             <Box sx={{
                 display: "flex",
                 width: "50%",
-                height: "100vh",
+                height: "100%",
                 alignItems: "flex-end",
                 justifyContent: "flex-start",
             }}>
@@ -115,7 +104,6 @@ export default function Login() {
                     display: "flex",
                     flexDirection: "column",
                     width: "50%",
-                    height: "80%",
                     backgroundColor: "#FAFAFA",
                     marginLeft: "15px",
                     borderRadius: "24px 24px 0px 0px",
@@ -230,20 +218,6 @@ export default function Login() {
                             }
                         }} startIcon={googleIcon} type="button" onClick={() => onLoginWithGoogle()}>Ingresar Con
                             Google</Button>
-                        <Button sx={{
-                            width: "100%",
-                            textTransform: "capitalize",
-                            color: "black",
-                            padding: "10px 20px",
-                            border: "0.5px solid #616161",
-                            borderRadius: "4px",
-                            cursor: "pointer",
-                            fontSize: "16px",
-                            "&:hover": {
-                                backgroundColor: "grey",
-                                color: "white"
-                            }
-                        }} startIcon={facebookIcon} onClick={() => onLoginWithFacebook()}>Ingresar Con Facebook</Button>
                     </Box>
                     <Box sx={{display: "flex", alignItems: "center", gap: "10px"}}>
                         <Typography sx={{textTransform: "capitalize", color: "black", fontSize: "15px"}}>Nuevo

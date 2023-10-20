@@ -33,7 +33,7 @@ export default function Orders() {
         <Box sx={{
             display: "flex",
             width: "100%",
-            height: "100vh",
+            height: "100%",
             backgroundColor: "white",
             padding: "10px",
             gap: "10px"
@@ -141,7 +141,7 @@ export default function Orders() {
                         </Box>
                         <Button sx={{
                             marginTop: "20px",
-                            width: "13%",
+                            width: "150px",
                             height: "50px",
                             textTransform: "capitalize",
                             color: "white",

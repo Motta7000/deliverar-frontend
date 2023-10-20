@@ -1,6 +1,6 @@
 "use client";
-import React, {ChangeEvent, useState} from "react";
-import {Typography, Box, Icon, TextField, Button, IconButton, FormControlLabel, MenuItem, Select} from "@mui/material"
+import React, {useState} from "react";
+import {Typography, Box, Icon, TextField, Button, IconButton, MenuItem, Select} from "@mui/material"
 import {signIn, useSession} from "next-auth/react";
 import Divider from "@mui/material/Divider";
 import Link from "next/link";
@@ -97,10 +97,6 @@ export default function Signup() {
         await signIn('google', {callbackUrl: '/dashboard'});
     }
 
-    const onLoginWithFacebook = async () => {
-        await signIn('facebook', {callbackUrl: '/dashboard'});
-    }
-
     const handleSelectChange = (event) => {
         setUserType(event.target.value);
     };
@@ -114,7 +110,7 @@ export default function Signup() {
         <Box sx={{
             display: "flex",
             width: "100%",
-            height: "100vh",
+            height: "100%",
             backgroundImage: `url("/images/background-barrio.png")`,
             backgroundSize: "cover",
             backgroundPosition: "center"
@@ -122,7 +118,7 @@ export default function Signup() {
             <Box sx={{
                 display: "flex",
                 width: "50%",
-                height: "100vh",
+                height: "100%",
                 alignItems: "center",
                 justifyContent: "flex-end"
             }}>
@@ -145,7 +141,7 @@ export default function Signup() {
             <Box sx={{
                 display: "flex",
                 width: "50%",
-                height: "100vh",
+                height: "100%",
                 alignItems: "flex-end",
                 justifyContent: "flex-start",
             }}>
@@ -153,7 +149,6 @@ export default function Signup() {
                     display: "flex",
                     flexDirection: "column",
                     width: "50%",
-                    height: "80%",
                     backgroundColor: "#FAFAFA",
                     marginLeft: "15px",
                     borderRadius: "24px 24px 0px 0px",
@@ -339,22 +334,6 @@ export default function Signup() {
                                 color: "white"
                             }
                         }} startIcon={googleIcon} onClick={() => onLoginWithGoogle()}>Ingresar Con Google</Button>
-                        <Button
-                            sx={{
-                                width: "100%",
-                                textTransform: "capitalize",
-                                color: "black",
-                                padding: "10px 20px",
-                                border: "0.5px solid #616161",
-                                borderRadius: "4px",
-                                cursor: "pointer",
-                                fontSize: "16px",
-                                "&:hover": {
-                                    backgroundColor: "grey",
-                                    color: "white"
-                                }
-                            }} startIcon={facebookIcon} onClick={() => onLoginWithFacebook()}>Ingresar Con
-                            Facebook</Button>
                     </Box>
                     <Box sx={{
                         display: "flex", alignItems: "center", gap: "10px"
