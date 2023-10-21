@@ -5,7 +5,7 @@ import {signOut, useSession} from "next-auth/react";
 import LogoutIcon from '@mui/icons-material/Logout';
 
 export const Navbar = () => {
-    const {data: session, status} = useSession();
+    const {data: session} = useSession();
 
     return (
         <AppBar position="static" elevation={0}>
