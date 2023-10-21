@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Box
             sx={{
               overflow: "auto",
-              height: "calc(100vh - 20px - 64px)",
+              height: "calc(100vh - 20px)",
               width: "100%",
             }}
           >
