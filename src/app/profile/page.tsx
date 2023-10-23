@@ -1,9 +1,21 @@
 "use client";
-import React, {useEffect, useState} from "react";
-import {Avatar, Box, Button, TextField, Typography} from "@mui/material";
+import React, {useContext, useEffect, useState} from "react";
+import {
+    Avatar,
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    TextField,
+    Typography
+} from "@mui/material";
 import {signOut, useSession} from "next-auth/react";
 import {styled} from "@mui/system";
 import {DeleteUser, UpdateUser} from "@/app/services/userDataService";
+import MyContext from "@/app/contexts/MyContext";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -17,13 +29,18 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
-export default function Orders() {
+export default function Profile() {
+    const [user, setUser] = useContext(MyContext);
     const {data: session} = useSession();
     const [name, setName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [image, setImage] = useState<string>("");
     const [createdAt, setCreatedAt] = useState<string>("");
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
+    console.log("session", session);
+    console.log("user", user);
 
     useEffect(() => {
         setName(session?.user?.name);
@@ -32,14 +49,6 @@ export default function Orders() {
         setImage(session?.user?.image);
         setCreatedAt(session?.user?.createdAt);
     }, [session]);
-
-    /*    useEffect(() => {
-        setName(data?.name);
-        setPassword(data?.password);
-        setEmail(data?.email);
-        setImage(session?.profilePicture);
-        setCreatedAt(data?.createdAt);
-    }, [data]);*/
 
     const onChangeName = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -68,14 +77,25 @@ export default function Orders() {
         }
     }
 
-    const onDeleteAccount = async () => {
-        const res = await DeleteUser(email);
+    const handleConfirmDelete = async () => {
+        // Handle account deletion logic here
+        const res = await DeleteUser(email, session?.user?.token);
         if (res.status === 200) {
             await signOut({
                 callbackUrl: "/"
             })
         }
-    }
+        handleCloseDeleteModal(); // Close the modal after deletion
+    };
+
+    const onDeleteAccount = () => {
+        setOpenDeleteModal(true);
+    };
+
+    const handleCloseDeleteModal = () => {
+        setOpenDeleteModal(false);
+    };
+
 
     const onSaveChanges = async () => {
         const res = await UpdateUser({
@@ -84,12 +104,12 @@ export default function Orders() {
             "password": password,
             "profilePicture": "image"
         })
-        if (res) {
+        /*if (res) {
             const {data: user} = res;
             if (user) {
                 // Setear el nuevo usuario en el contexto
             }
-        }
+        }*/
     }
 
     return (
@@ -185,6 +205,28 @@ export default function Orders() {
                     >
                         Eliminar Cuenta
                     </Button>
+                    {/* Delete Account Confirmation Modal */}
+                    <Dialog
+                        open={openDeleteModal}
+                        onClose={handleCloseDeleteModal}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">Confirmar eliminación</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                ¿Está seguro de que desea eliminar su cuenta?
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleCloseDeleteModal} color="primary">
+                                Cancelar
+                            </Button>
+                            <Button onClick={handleConfirmDelete} color="primary" autoFocus>
+                                Confirmar
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                 </Box>
             </Box>
             <Box sx={{display: "flex", width: "80%"}}>

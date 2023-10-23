@@ -2,11 +2,15 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Box, Typography, TextField, Button, Icon} from "@mui/material";
 import Divider from "@mui/material/Divider";
-import {signIn, useSession} from "next-auth/react";
+import {signIn} from "next-auth/react";
 import Link from "next/link";
-import {useGlobalContext} from "@/app/context/store";
+import MyContext from "../contexts/MyContext";
+import {LoginUser} from "@/app/services/userDataService";
+import {useRouter} from "next/navigation";
 
 export default function Login() {
+    const router = useRouter();
+    const [user, setUser] = useContext(MyContext);
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [errors, setErrors] = useState({
@@ -52,19 +56,29 @@ export default function Login() {
     };
 
     const onLogin = async () => {
-        if (!isValidEmail(email)) {
+        // Chequear que la contraseña tenga  una mayuscula, un numero y un caracter especial.
+        /*if (!isValidEmail(email)) {
             setErrors({...errors, email: true});
             return;
         }
         if (password.length < 7) {
             setErrors({...errors, password: true});
             return;
+        }*/
+        const response = await LoginUser({email: email, password: password});
+        const userData = await response.json()
+        if (userData.code === 400) {
+            return
+        } else {
+            console.log("entre")
+            setUser(userData);
+            router.push("/dashboard");
         }
-        await signIn("credentials", {
+        /*await signIn("credentials", {
             email: email,
             password: password,
             callbackUrl: "/dashboard",
-        });
+        });*/
     };
 
     const onLoginWithGoogle = async () => {

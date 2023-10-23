@@ -1,10 +1,8 @@
 "use client";
 import React, {useEffect, useState} from "react";
 import {Box, Typography} from "@mui/material";
-import VideoPlayer from "@/components/VideoPlayer";
 import RobotTracker from "@/components/RobotTracker";
 import Paper from "@mui/material/Paper";
-import {useGlobalContext} from "@/app/context/store";
 import {useSession} from "next-auth/react";
 
 const items = [
@@ -72,8 +70,6 @@ const items = [
 
 export default function Dashboard() {
     const {data: session} = useSession()
-    const {data, setData} = useGlobalContext();
-    console.log("data", data)
     const [selectedRobot, setSelectedRobot] = useState<number>(0);
 
     const onSelect = (index: number) => {

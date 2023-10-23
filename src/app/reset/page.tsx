@@ -1,9 +1,11 @@
 "use client";
 import React, {useState} from "react";
-import {Box, Typography, TextField, Button} from "@mui/material";
+import {Box, Typography, TextField, Button, IconButton} from "@mui/material";
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/navigation";
 import {ResetPassword} from "@/app/services/userDataService";
+import {Modal} from "@mui/base";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function Reset() {
     const router = useRouter();
@@ -11,23 +13,33 @@ export default function Reset() {
 
     const [email, setEmail] = useState<string>("");
     const [error, setError] = useState<boolean>(false);
+    const [openPopup, setOpenPopup] = useState(false);
 
     function isValidEmail(email: string) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        console.log(emailRegex.test(email));
         return emailRegex.test(email);
     }
+
+    const handleClosePopup = () => {
+        setOpenPopup(false);
+        router.push("/");
+    };
+
 
     const onReset = async () => {
         if (isValidEmail(email)) {
             setError(false);
             const res = await ResetPassword(email);
+            console.log("res", res)
             if (res.status === 200) {
-                router.push("/");
+                setOpenPopup(true);
             }
         } else {
             setError(true);
         }
     };
+
 
     return (
         <Box
@@ -173,6 +185,66 @@ export default function Reset() {
                             >
                                 Continuar
                             </Button>
+                            <Modal
+                                open={openPopup}
+                                onClose={handleClosePopup}
+                                aria-labelledby="popup-title"
+                                aria-describedby="popup-description"
+                            >
+                                <Box
+                                    sx={{
+                                        position: "absolute",
+                                        top: "50%",
+                                        left: "50%",
+                                        transform: "translate(-50%, -50%)",
+                                        width: "50%",
+                                        bgcolor: "white",
+                                        borderRadius: "10px",
+                                        border: "1px solid #000",
+                                        minHeight: "200px",
+                                        p: 2,
+                                    }}
+                                >
+                                    <IconButton
+                                        edge="end"
+                                        color="inherit"
+                                        onClick={handleClosePopup}
+                                        sx={{
+                                            position: "absolute",
+                                            top: "8px",
+                                            right: "15px",
+                                            color: "black",
+                                        }}
+                                    >
+                                        <CloseIcon/>
+                                    </IconButton>
+                                    <Typography
+                                        id="popup-title"
+                                        variant="h6"
+                                        component="div"
+                                        sx={{color: "black", marginBottom: "10px"}}
+                                    >
+                                        Ya casi estas nuevamente con nosotros!
+                                    </Typography>
+                                    <Typography id="popup-description" sx={{color: "black"}}>
+                                        Para seguir disfrutando de nuestros servicios te hemos enviado un email para
+                                        poder obtener tu nueva contraseña.
+                                    </Typography>
+                                </Box>
+                            </Modal>
+                            {/* Backdrop filter when modal is open */}
+                            {openPopup && (
+                                <Box
+                                    sx={{
+                                        position: "fixed",
+                                        top: 0,
+                                        left: 0,
+                                        width: "100%",
+                                        height: "100%",
+                                        backdropFilter: "blur(5px)",
+                                    }}
+                                />
+                            )}
                         </Box>
                     </Box>
                 </Box>

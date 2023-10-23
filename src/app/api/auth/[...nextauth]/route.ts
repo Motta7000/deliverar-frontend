@@ -12,7 +12,7 @@ const handler = NextAuth({
                 password: {label: "Contraseña", type: "password"}
             },
 
-            authorize: async (credentials) => {
+            /*authorize: async (credentials) => {
 
                 const res = await fetch("http://localhost:8000/api/auth/login", {
                     method: 'POST',
@@ -21,22 +21,21 @@ const handler = NextAuth({
                 })
 
                 const user = await res.json()
+                console.log("user", user)
 
-                const jwt = require('jsonwebtoken');
-                const secretKey = process.env.BACKEND_SECRET_JWT as string;
-                const decodedUser = jwt.verify(user.token, secretKey);
-
-
-                if (res.status === 200 && decodedUser) {
-                    return decodedUser
+                if (res.ok) {
+                    return user
                 }
-            }
+            }*/
         }),
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID as string,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
         }),
     ],
+    pages: {
+        signIn: '/login',
+    },
     //Add custom values into the session, custom attributes about the user for example
     callbacks: {
         async redirect({url, baseUrl}) {
@@ -46,18 +45,6 @@ const handler = NextAuth({
             else if (new URL(url).origin === baseUrl) return url
             return baseUrl
         },
-        /*async signIn(user, account, profile) {
-            return user;
-        },
-
-        async session({session, token}) {
-            // You can manipulate the session object here
-            return session;
-        },
-        async jwt({token, user}) {
-            // You can manipulate the JWT token here
-            return token;
-        },*/
     },
 });
 

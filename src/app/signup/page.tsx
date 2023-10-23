@@ -47,17 +47,6 @@ export default function Signup() {
             />
         </Icon>
     );
-    const facebookIcon = (
-        <Icon
-            sx={{display: "flex", justifyContent: "center", alignItems: "center"}}
-        >
-            <img
-                alt="edit"
-                src="/images/facebook-icon.svg"
-                style={{width: "100%", height: "100%"}}
-            />
-        </Icon>
-    );
 
     function isValidEmail(email: string) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -67,65 +56,60 @@ export default function Signup() {
     const handleNameChange = (e: { target: { value: any } }) => {
         const newName = e.target.value;
         setName(newName);
-        setErrors({...errors, email: !newName});
     };
 
     const handleEmailChange = (e: { target: { value: any } }) => {
         const newEmail = e.target.value;
         setEmail(newEmail);
-        setErrors({...errors, email: !newEmail});
     };
 
     const handlePasswordChange = (e: { target: { value: any } }) => {
         const newPassword = e.target.value;
         setPassword(newPassword);
-        setErrors({...errors, password: !newPassword});
-    };
-
-    const handleOpenPopup = () => {
-        setOpenPopup(true);
     };
 
     const handleClosePopup = () => {
         setOpenPopup(false);
-        router.push("/login");
     };
 
+    const validatePassword = (password: string) => {
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[^\da-zA-Z]).{8}$/;
+        console.log("passwordRegex.test(password)", passwordRegex.test(password))
+        return passwordRegex.test(password);
+    }
+
+
     const onCreate = async () => {
-        if (userType === "provider" && !selectedFile)
-            return setErrors({
-                ...errors,
-                userType: true,
-            });
-        if (
-            !name ||
-            !email ||
-            !password ||
-            password.length < 7 ||
-            !isValidEmail(email)
-        ) {
+        //Chequear porque las validaciones no funcionan bien. Por eso no se manda la request
+        //Si las validaciones son comentadas se enviará la request
+        let newErrors = {
+            name: !name,
+            email: !isValidEmail(email),
+            password: !validatePassword(password),
+            userType: userType === "provider" && !selectedFile,
+        };
+        console.log("newErrors", newErrors)
+        if (newErrors.name || newErrors.email || newErrors.password || newErrors.userType) {
+            return setErrors(newErrors);
+        }
+
+        if (userType === "client") {
             const res = await AddUser({
                 name: name,
                 email: email,
                 password: password,
-                profilePicture: "",
-            })
-            setErrors({
-                ...errors,
-                name: !name,
-                email: !email,
-                password: !password,
+                isProvider: false,
             });
-            setOpenPopup(false);
             if (res.status === 200) router.push("/login");
         } else {
-            setErrors({
-                name: false,
-                email: false,
-                password: false,
-                userType: false,
+            const res = await AddUser({
+                name: name,
+                email: email,
+                password: password,
+                isProvider: true,
             });
-            setOpenPopup(true);
+
+            if (res.status === 200) router.push("/login");
         }
     };
 
@@ -139,7 +123,6 @@ export default function Signup() {
 
     const onSelectFile = (file: React.SetStateAction<File | null>) => {
         setSelectedFile(file);
-        console.log("file", file);
     };
 
     return (
@@ -284,7 +267,7 @@ export default function Signup() {
                                 error={errors.password}
                                 helperText={
                                     errors.password
-                                        ? "La contraseña debe contener un minimo de 8 caracteres"
+                                        ? "La contraseña debe contener un minimo de 8 caracteres, una mayuscula y un caracter especial."
                                         : ""
                                 }
                             />
@@ -407,39 +390,44 @@ export default function Signup() {
                         }}
                         orientation="horizontal"
                     >
-                        <Typography sx={{color: "black"}}>Or</Typography>
+                        {userType !== "provider" && (
+                            <Typography sx={{color: "black"}}>Or</Typography>
+                        )}
                     </Divider>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                            width: "80%",
-                            gap: "15px",
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}
-                    >
-                        <Button
+
+                    {userType !== "provider" && (
+                        <Box
                             sx={{
-                                width: "100%",
-                                textTransform: "capitalize",
-                                color: "black",
-                                padding: "10px 20px",
-                                border: "0.5px solid #616161",
-                                borderRadius: "4px",
-                                cursor: "pointer",
-                                fontSize: "16px",
-                                "&:hover": {
-                                    backgroundColor: "grey",
-                                    color: "white",
-                                },
+                                display: "flex",
+                                flexDirection: "column",
+                                width: "80%",
+                                gap: "15px",
+                                justifyContent: "center",
+                                alignItems: "center",
                             }}
-                            startIcon={googleIcon}
-                            onClick={() => onLoginWithGoogle()}
                         >
-                            Ingresar Con Google
-                        </Button>
-                    </Box>
+                            <Button
+                                sx={{
+                                    width: "100%",
+                                    textTransform: "capitalize",
+                                    color: "black",
+                                    padding: "10px 20px",
+                                    border: "0.5px solid #616161",
+                                    borderRadius: "4px",
+                                    cursor: "pointer",
+                                    fontSize: "16px",
+                                    "&:hover": {
+                                        backgroundColor: "grey",
+                                        color: "white",
+                                    },
+                                }}
+                                startIcon={googleIcon}
+                                onClick={() => onLoginWithGoogle()}
+                            >
+                                Ingresar Con Google
+                            </Button>
+                        </Box>
+                    )}
                     <Box
                         sx={{
                             display: "flex",
