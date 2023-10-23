@@ -1,7 +1,10 @@
-// userProvider.js
-import { useEffect, useState } from "react";
+// providers/UserProvider.js
+import { useEffect, useState, createContext, useContext } from "react";
 import { useSession } from "next-auth/react";
-import { UserContext } from "./userContext";
+
+const UserContext = createContext();
+
+export const useUser = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
   const { data: session } = useSession();

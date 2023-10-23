@@ -22,7 +22,8 @@ const handler = NextAuth({
 
         // If authentication was successful, return user object
         if (res.ok && user) {
-          return Promise.resolve(user);
+          localStorage.setItem("token", user.token); // Store the token for later use if required (e.g., API calls)
+          return user.user;
         }
         // If not, return null to signify authentication failure
         else {
@@ -39,10 +40,17 @@ const handler = NextAuth({
     signIn: "/login",
   },
   callbacks: {
+    async session(session, user) {
+      // Add additional user details to session here
+      session.user.id = user._id;
+      session.user.isProvider = user.isProvider;
+      session.user.profilePicture = user.profilePicture;
+      // Add other fields as necessary
+      return session;
+    },
     async redirect({ url, baseUrl }) {
-      if (url.startsWith("/"))
-        return `${baseUrl}${url}`; // Allows relative callback URLs
-      else if (new URL(url).origin === baseUrl) return url; // Allows callback URLs on the same origin
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      else if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
     },
   },
