@@ -16,10 +16,11 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import {AppContext} from "@/context/AppContext";
 
 export const Navbar = () => {
-    const {user, addUser} = useContext(AppContext);
+    const {user, addUser, updateUser} = useContext(AppContext);
 
     console.log("user", user)
 
+    // Chequea la data del usuario hasta que la obtiene y no busca mas.
     useEffect(() => {
         let intervalId: string | number | NodeJS.Timeout | undefined;
 
@@ -56,57 +57,63 @@ export const Navbar = () => {
                                 marginLeft: "auto"
                             }}>
                             <Button href="/dashboard" variant="text" sx={{
-                                color: "black",
-                                backgroundColor: "white",
+                                color: "white",
+                                backgroundColor: "#4681f4",
                                 textTransform: "capitalize",
                                 borderRadius: "10px",
                                 "&:hover": {
-                                    backgroundColor: "black",
-                                    color: "white"
+                                    backgroundColor: "#5783db",
+                                    border: "1px solid white",
                                 }
                             }}>
                                 Dashboard
                             </Button>
                             <Divider orientation="vertical" flexItem/>
                             <Button href="/orders" variant="text" sx={{
-                                color: "black",
-                                backgroundColor: "white",
+                                color: "white",
+                                backgroundColor: "#4681f4",
                                 textTransform: "capitalize",
                                 borderRadius: "10px",
                                 "&:hover": {
-                                    backgroundColor: "black",
-                                    color: "white"
+                                    backgroundColor: "#5783db",
+                                    border: "1px solid white",
                                 }
                             }}>
                                 Mis Pedidos
                             </Button>
                             <Divider orientation="vertical" flexItem/>
-                            <Button
-                                sx={{
-                                    textTransform: "capitalize",
-                                    backgroundColor: "black",
-                                    color: "white",
-                                    borderRadius: "10px",
-                                    "&:hover": {
-                                        backgroundColor: "white",
-                                        color: "black"
-                                    }
-                                }}
-                                href="/profile"
-                                type="button">
+                            <Button variant="text"
+                                    sx={{
+                                        color: "white",
+                                        backgroundColor: "#4681f4",
+                                        textTransform: "capitalize",
+                                        borderRadius: "10px",
+                                        "&:hover": {
+                                            backgroundColor: "#5783db",
+                                            border: "1px solid white",
+                                        }
+                                    }}
+                                    href="/profile">
                                 <Box sx={{display: "flex", gap: "10px", justifyContent: "center", alignItems: "center"}}>
                                     <p>{user?.user?.name.length > 20 ? user?.user?.name.slice(0, 10) + '...' : user?.user?.name}</p>
                                     <Avatar
                                         src={user?.user?.image ? user?.user?.image : user?.user?.profilePicture}
                                         alt="user-avatar"/>
                                 </Box></Button>
-                            <IconButton onClick={async () => {
-                                localStorage.clear()
-                                document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
-                                await signOut({
-                                    callbackUrl: "/"
-                                })
-                            }}>
+                            <IconButton
+                                sx={{
+                                    color: "white",
+                                    textTransform: "capitalize",
+                                    borderRadius: "10px",
+                                }}
+                                onClick={async () => {
+                                    localStorage.clear()
+                                    document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+                                    updateUser(null);
+                                    await signOut({
+                                        callbackUrl: "/"
+                                    })
+                                }}>
                                 <LogoutIcon/>
                             </IconButton>
                         </Box>

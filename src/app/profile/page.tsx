@@ -95,7 +95,6 @@ export default function Profile() {
     };
 
     const onSaveChanges = async () => {
-        // Check if the image has changed
         if (image !== user?.user?.profilePicture) {
             const image2 = await ChangeProfileImage(email, user?.token, image);
             console.log("res", image2)
@@ -130,7 +129,8 @@ export default function Profile() {
                     overflow: "auto",
                     padding: "10px",
                     gap: "30px",
-                    backgroundColor: "grey",
+                    backgroundColor: "#4681f4",
+                    borderRadius: "10px"
                 }}
             >
                 <Box
@@ -299,19 +299,17 @@ export default function Profile() {
                         </Box>
                         <Box>
                             <Button
+                                variant="text"
                                 onClick={onSaveChanges}
                                 sx={{
-                                    marginTop: "20px",
-                                    textTransform: "capitalize",
                                     color: "white",
-                                    backgroundColor: "black",
+                                    backgroundColor: "#4681f4",
+                                    textTransform: "capitalize",
                                     borderRadius: "10px",
-                                    cursor: "pointer",
-                                    fontSize: "16px",
                                     "&:hover": {
-                                        backgroundColor: "grey",
-                                        color: "white",
-                                    },
+                                        backgroundColor: "#5783db",
+                                        border: "1px solid white",
+                                    }
                                 }}
                             >
                                 Guardar Cambios
