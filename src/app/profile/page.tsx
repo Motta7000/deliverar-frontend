@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {
     Avatar,
     Box,
@@ -14,9 +14,10 @@ import {
 } from "@mui/material";
 import {signOut,} from "next-auth/react";
 import {ChangeProfileImage, DeleteUser, UpdateUser} from "@/app/services/userDataService";
+import {AppContext} from "@/context/AppContext";
 
 export default function Profile() {
-    const [userData, setUserData] = useState<object | null>({});
+    const {user, updateUser} = useContext(AppContext);
     const [name, setName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [email, setEmail] = useState<string>("");
@@ -25,20 +26,32 @@ export default function Profile() {
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
     useEffect(() => {
-        setName(userData?.user?.name)
-        setPassword(userData?.user?.password)
-        setEmail(userData?.user?.email)
-        setImage(userData?.user?.profilePicture)
-        setCreatedOn(userData?.user?.createdOn?.slice(0, 7))
-    }, [userData]);
+        const formattedDate = formatDate(user?.user?.createdOn);
+        setName(user?.user?.name)
+        setEmail(user?.user?.email)
+        setImage(user?.user?.profilePicture)
+        setCreatedOn(formattedDate)
+    }, [user]);
 
-    useEffect(() => {
-        const storedUserData = localStorage.getItem("user");
-        if (storedUserData) {
-            const parsedUserData = JSON.parse(storedUserData);
-            setUserData(parsedUserData);
-        }
-    }, []);
+    function formatDate(inputDate: string): string {
+        const options: Intl.DateTimeFormatOptions = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        };
+        if (!inputDate) return
+        const date = new Date(inputDate);
+        const formattedDate = new Intl.DateTimeFormat('es-ES', options).format(date);
+
+        const [day, month, year] = formattedDate.split(' ');
+
+        const monthsInSpanish = [
+            'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+            'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+        ];
+
+        return `${day} de ${year}`;
+    }
 
     console.log("image", image)
 
@@ -46,16 +59,12 @@ export default function Profile() {
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         setName(event.target.value);
+        updateUser({...user, user: {...user?.user, name: event.target.value}});
     };
     const onChangePassword = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         setPassword(event.target.value);
-    };
-    const onChangEmail = (
-        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setEmail(event.target.value);
     };
 
     const onChangeImage = (event: ChangeEvent<HTMLInputElement>) => {
@@ -63,11 +72,12 @@ export default function Profile() {
         if (files && files.length > 0) {
             const imageUrl = URL.createObjectURL(files[0]);
             setImage(imageUrl);
+            updateUser({...user, user: {...user?.user, profilePicture: imageUrl}});
         }
     };
 
     const handleConfirmDelete = async () => {
-        const res = await DeleteUser(email, userData?.token);
+        const res = await DeleteUser(email, user?.token);
         if (res.status === 200) {
             await signOut({
                 callbackUrl: "/",
@@ -86,17 +96,17 @@ export default function Profile() {
 
     const onSaveChanges = async () => {
         // Check if the image has changed
-        if (image !== userData?.user?.profilePicture) {
-            const image2 = await ChangeProfileImage(email, userData?.token, image);
+        if (image !== user?.user?.profilePicture) {
+            const image2 = await ChangeProfileImage(email, user?.token, image);
             console.log("res", image2)
         }
 
-        if (name !== userData?.user?.name || password !== userData?.user?.password) {
+        if (name !== user?.user?.name || password !== user?.user?.password) {
             const res = await UpdateUser({
                 email: email,
                 name: name,
                 password: password,
-            }, userData?.token)
+            }, user?.token)
             console.log("res", res)
         }
     };

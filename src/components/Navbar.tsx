@@ -1,5 +1,5 @@
 "use client"
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useContext} from "react";
 import {
     AppBar,
     Toolbar,
@@ -13,36 +13,12 @@ import {
 } from '@mui/material';
 import {signOut} from "next-auth/react";
 import LogoutIcon from '@mui/icons-material/Logout';
-import {useEventListener} from '@mui/system';
-import {cookies} from "next/headers";
-
+import {AppContext} from "@/context/AppContext";
 
 export const Navbar = () => {
-    const [userData, setUserData] = useState<object | null>({});
+    const {user, addUser} = useContext(AppContext);
 
-    const handleStorageChange = () => {
-        const storedUserData = localStorage.getItem("user");
-        if (storedUserData) {
-            const parsedUserData = JSON.parse(storedUserData);
-            setUserData(parsedUserData);
-        }
-    };
-
-    /*useEffect(() => {
-        // Initial check
-        handleStorageChange();
-
-        // Set up an interval to check localStorage every second
-        const intervalId = setInterval(() => {
-            handleStorageChange();
-        }, 1000);
-
-        // Cleanup the interval on component unmount
-        return () => clearInterval(intervalId);
-    }, []);*/
-
-
-    // this is to check and when the data appears it doesnt search anymore
+    console.log("user", user)
 
     useEffect(() => {
         let intervalId: string | number | NodeJS.Timeout | undefined;
@@ -51,32 +27,26 @@ export const Navbar = () => {
             const storedUserData = localStorage.getItem("user");
             if (storedUserData) {
                 const parsedUserData = JSON.parse(storedUserData);
-                setUserData(parsedUserData);
-                clearInterval(intervalId); // Stop checking once userData is found
+                addUser(parsedUserData);
+                clearInterval(intervalId);
             }
         };
-
-        // Initial check
         checkLocalStorage();
-
-        // Set up an interval to check localStorage every second
         intervalId = setInterval(checkLocalStorage, 1000);
-
-        // Cleanup the interval on component unmount
         return () => clearInterval(intervalId);
     }, []);
-    console.log(userData)
+
     return (
         <AppBar position="static" elevation={0}>
             <Toolbar>
-                {userData?.user ? (
+                {user?.user ? (
                     <Typography variant='h6' color={'white'}> DeliverAr </Typography>
                 ) : (
                     <Link display={'flex'} alignItems={'center'} href='/'>
                         <Typography variant='h6' color={'white'}> DeliverAr </Typography>
                     </Link>
                 )}
-                {userData?.user ? (
+                {user?.user ? (
                         <Box
                             sx={{
                                 display: "flex",
@@ -125,9 +95,9 @@ export const Navbar = () => {
                                 href="/profile"
                                 type="button">
                                 <Box sx={{display: "flex", gap: "10px", justifyContent: "center", alignItems: "center"}}>
-                                    <p>{userData?.user?.name}</p>
+                                    <p>{user?.user?.name.length > 20 ? user?.user?.name.slice(0, 10) + '...' : user?.user?.name}</p>
                                     <Avatar
-                                        src={userData?.user?.image ? userData?.user?.image : userData?.user?.profilePicture}
+                                        src={user?.user?.image ? user?.user?.image : user?.user?.profilePicture}
                                         alt="user-avatar"/>
                                 </Box></Button>
                             <IconButton onClick={async () => {

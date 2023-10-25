@@ -4,6 +4,7 @@ import ProvidersWrapper from "./ProvidersWrapper";
 import {Navbar} from "@/components";
 import {Box} from "@mui/material";
 import {Inter} from "next/font/google";
+import {AppProvider} from "@/context/AppContext";
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -17,16 +18,20 @@ export default function RootLayout({children}: { children: ReactNode }) {
         <html lang="es">
         <body>
         <ProvidersWrapper>
-            <Navbar></Navbar>
-            <Box
-                sx={{
-                    overflow: "auto",
-                    height: "calc(100vh - 64px)",
-                    width: "100%",
-                }}
-            >
-                {children}
-            </Box>
+            <AppProvider>
+                <div>
+                    <Navbar></Navbar>
+                    <Box
+                        sx={{
+                            overflow: "auto",
+                            height: "calc(100vh - 64px)",
+                            width: "100%",
+                        }}
+                    >
+                        {children}
+                    </Box>
+                </div>
+            </AppProvider>
         </ProvidersWrapper>
         </body>
         </html>
