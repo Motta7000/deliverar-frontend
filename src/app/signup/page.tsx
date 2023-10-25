@@ -6,7 +6,6 @@ import {
     Icon,
     TextField,
     Button,
-    IconButton,
     MenuItem,
     Select,
 } from "@mui/material";
@@ -14,10 +13,9 @@ import {signIn, useSession} from "next-auth/react";
 import Divider from "@mui/material/Divider";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
-import {Modal} from "@mui/base";
-import CloseIcon from "@mui/icons-material/Close";
 import FileUpload from "@/components/FileUpload";
 import {AddUser} from "@/app/services/userDataService";
+import {ModalMessage} from "@/components/ModalMessage";
 
 export default function Signup() {
     const router = useRouter();
@@ -35,10 +33,18 @@ export default function Signup() {
     });
     const [openPopup, setOpenPopup] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [modalTitle, setModalTitle] = useState<string>("");
+    const [modalDescription, setModalDescription] = useState<string>("");
+    const [fileError, setFileError] = useState<boolean>(false);
+
 
     const googleIcon = (
         <Icon
-            sx={{display: "flex", justifyContent: "center", alignItems: "center"}}
+            sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+            }}
         >
             <img
                 alt="edit"
@@ -70,29 +76,32 @@ export default function Signup() {
 
     const handleClosePopup = () => {
         setOpenPopup(false);
+        if (!modalTitle.toLowerCase().includes("error")) {
+            router.push("/login");
+        }
     };
 
     const validatePassword = (password: string) => {
-        const passwordRegex = /^(?=.*[A-Z])(?=.*[^\da-zA-Z]).{8}$/;
-        console.log("passwordRegex.test(password)", passwordRegex.test(password))
-        return passwordRegex.test(password);
-    }
-
+        if (!password.trim()) {
+            return false;
+        }
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[^\da-zA-Z]).{8,}$/;
+        return !passwordRegex.test(password);
+    };
 
     const onCreate = async () => {
-        //Chequear porque las validaciones no funcionan bien. Por eso no se manda la request
-        //Si las validaciones son comentadas se enviará la request
         let newErrors = {
             name: !name,
             email: !isValidEmail(email),
             password: !validatePassword(password),
             userType: userType === "provider" && !selectedFile,
         };
-        console.log("newErrors", newErrors)
+        if (userType === "provider" && !selectedFile) {
+            setFileError(true);
+        }
         if (newErrors.name || newErrors.email || newErrors.password || newErrors.userType) {
             return setErrors(newErrors);
         }
-
         if (userType === "client") {
             const res = await AddUser({
                 name: name,
@@ -100,7 +109,15 @@ export default function Signup() {
                 password: password,
                 isProvider: false,
             });
-            if (res.status === 200) router.push("/login");
+            if (res.status === 200) {
+                setModalTitle("Ya sos parte de nuestra comunidad!");
+                setModalDescription("Tu cuenta fue creada satisfactoriamente!");
+                setOpenPopup(true)
+            } else {
+                setModalTitle("Ocurrio un error!");
+                setModalDescription("Por favor verifica que el email sea valido e intenta nuevamente. Si el problema persiste, por favor contactanos.");
+                setOpenPopup(true);
+            }
         } else {
             const res = await AddUser({
                 name: name,
@@ -108,9 +125,17 @@ export default function Signup() {
                 password: password,
                 isProvider: true,
             });
-
-            if (res.status === 200) router.push("/login");
+            if (res.status === 200) {
+                setModalTitle("Ya sos parte de nuestra comunidad!");
+                setModalDescription("Tu cuenta fue creada satisfactoriamente!");
+                setOpenPopup(true)
+            } else {
+                setModalTitle("Ocurrio un error!");
+                setModalDescription("Por favor verifica que el email sea valido e intenta nuevamente. Si el problema persiste, por favor contactanos.");
+                setOpenPopup(true);
+            }
         }
+
     };
 
     const onLoginWithGoogle = async () => {
@@ -247,9 +272,9 @@ export default function Signup() {
                                 id="outlined-basic"
                                 label="Email"
                                 variant="outlined"
-                                error={errors.password}
+                                error={errors.email}
                                 helperText={
-                                    errors.password ? "Por favor ingresar un email." : ""
+                                    errors.email ? "Por favor ingresar un email valido." : ""
                                 }
                             />
                             <TextField
@@ -284,9 +309,7 @@ export default function Signup() {
                                 <MenuItem value="client">Cliente</MenuItem>
                                 <MenuItem value="provider">Proveedor</MenuItem>
                             </Select>
-                            {userType === "provider" && (
-                                <FileUpload onSelectFile={onSelectFile}/>
-                            )}
+                            {userType === "provider" && <FileUpload onSelectFile={onSelectFile} fileError={fileError}/>}
                         </Box>
                         <Box
                             sx={{
@@ -316,57 +339,12 @@ export default function Signup() {
                             >
                                 Registrarse
                             </Button>
-
-                            {/* Popup component */}
-                            <Modal
-                                open={openPopup}
-                                onClose={handleClosePopup}
-                                aria-labelledby="popup-title"
-                                aria-describedby="popup-description"
-                            >
-                                <Box
-                                    sx={{
-                                        position: "absolute",
-                                        top: "50%",
-                                        left: "50%",
-                                        transform: "translate(-50%, -50%)",
-                                        width: "50%",
-                                        bgcolor: "white",
-                                        borderRadius: "10px",
-                                        border: "1px solid #000",
-                                        minHeight: "200px",
-                                        p: 2,
-                                    }}
-                                >
-                                    <IconButton
-                                        edge="end"
-                                        color="inherit"
-                                        onClick={handleClosePopup}
-                                        sx={{
-                                            position: "absolute",
-                                            top: "8px",
-                                            right: "15px",
-                                            color: "black",
-                                        }}
-                                    >
-                                        <CloseIcon/>
-                                    </IconButton>
-                                    <Typography
-                                        id="popup-title"
-                                        variant="h6"
-                                        component="div"
-                                        sx={{color: "black", marginBottom: "10px"}}
-                                    >
-                                        Ya casi sos parte de nuestra comunidad!
-                                    </Typography>
-                                    <Typography id="popup-description" sx={{color: "black"}}>
-                                        Para comenzar a disfrutar de nuestros servicios, te enviamos
-                                        un email de confirmacion para que puedas verificar tu
-                                        cuenta.
-                                    </Typography>
-                                </Box>
-                            </Modal>
-                            {/* Backdrop filter when modal is open */}
+                            <ModalMessage
+                                openPopup={openPopup}
+                                handleClosePopup={handleClosePopup}
+                                title={modalTitle}
+                                description={modalDescription}
+                            />
                             {openPopup && (
                                 <Box
                                     sx={{

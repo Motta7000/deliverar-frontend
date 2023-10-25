@@ -1,13 +1,13 @@
 "use client"
-export const UpdateUser = async (newUser: { email: string; name: string; password: string; profilePicture: string; }) => {
+export const UpdateUser = async (newUser: { email: string; name: string; password: string; }, token) => {
     try {
-        return await fetch("http://localhost:8000/api/user", {
+        return await fetch(`http://localhost:8000/api/user/`, {
             method: 'PUT',
             body: JSON.stringify(newUser),
-            headers: {"Content-Type": "application/json"}
+            headers: {"Content-Type": "application/json", "Authorization": `Bearer ${token}`},
         })
     } catch (e) {
-        console.error("Error:", e);
+        console.log("error", e)
     }
 }
 
@@ -39,6 +39,18 @@ export const ResetPassword = async (email: any) => {
         return await fetch(`http://localhost:8000/api/auth/password-recovery/${email}`, {
             method: 'POST',
             headers: {"Content-Type": "application/json"}
+        })
+    } catch (e) {
+        console.log("error", e)
+    }
+}
+
+export const ChangeProfileImage = async (email: any, token: any, profilePicture: any) => {
+    try {
+        return await fetch(`http://localhost:8000/api/user/profile-picture/${email}`, {
+            method: 'PUT',
+            body: JSON.stringify(profilePicture),
+            headers: {"Content-Type": "application/json", "Authorization": `Bearer ${token}`},
         })
     } catch (e) {
         console.log("error", e)

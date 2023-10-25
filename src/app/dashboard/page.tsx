@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {Box, Typography} from "@mui/material";
 import RobotTracker from "@/components/RobotTracker";
 import Paper from "@mui/material/Paper";
-import {useSession} from "next-auth/react";
+import {GetCookie} from "@/app/functions/getCookie";
 
 const items = [
     {
@@ -69,14 +69,31 @@ const items = [
 ];
 
 export default function Dashboard() {
-    const {data: session} = useSession()
     const [selectedRobot, setSelectedRobot] = useState<number>(0);
+
+    async function CheckCookie() {
+        const userCookie = await GetCookie('user');
+        const parsedValue = JSON.parse(userCookie?.value);
+        return {
+            code: parsedValue.code,
+            token: parsedValue.token,
+            user: parsedValue.user,
+        };
+    }
+
+    const setCookieValue = async () => {
+        const value = await CheckCookie();
+        localStorage.setItem("user", JSON.stringify(value));
+    };
+
+    useEffect(() => {
+        setCookieValue()
+    }, []);
 
     const onSelect = (index: number) => {
         setSelectedRobot(index);
         console.log("Selected robot", index);
     };
-
 
     return (
         <Box
