@@ -54,7 +54,6 @@ export default function Login() {
     }) => {
         const newEmail = e.target.value;
         setEmail(newEmail);
-        setErrors({...errors, email: !newEmail});
     };
 
     const handlePasswordChange = (e: {
@@ -64,11 +63,10 @@ export default function Login() {
     }) => {
         const newPassword = e.target.value;
         setPassword(newPassword);
-        setErrors({...errors, password: !newPassword});
     };
 
     const onLogin = async () => {
-        /*if (!email || !password) {
+        if (!email || !password) {
             setErrors({...errors, email: !email, password: !password});
             return;
         }
@@ -80,7 +78,7 @@ export default function Login() {
         if (!validatePassword(password)) {
             setErrors({...errors, password: !password});
             return;
-        }*/
+        }
         const res = await LoginUser({email: email, password: password});
         console.log("res", res)
         if (res.status === 200) {
@@ -94,25 +92,6 @@ export default function Login() {
             setModalDescription("Por favor verifica que el email sea valido e intenta nuevamente. Si el problema persiste, por favor contactanos.");
             setOpenPopup(true);
         }
-        console.log("res", res)
-        // Chequear que la contraseña tenga  una mayuscula, un numero y un caracter especial.
-        /*if (!isValidEmail(email)) {
-                setErrors({...errors, email: true});
-                return;
-            }
-            if (password.length < 7) {
-                setErrors({...errors, password: true});
-                return;
-            }*/
-        // const response = await LoginUser({email: email, password: password});
-        // const userData = await response.json()
-        // if (userData.code === 400) {
-        //     return
-        // } else {
-        //     console.log("entre")
-        //     setUser(userData);
-        //     router.push("/dashboard");
-        // }
     };
 
     const onLoginWithGoogle = async () => {
@@ -245,7 +224,7 @@ export default function Login() {
                                 error={errors.password}
                                 helperText={
                                     errors.password
-                                        ? "La contraseña debe contener un minimo de 8 caracteres."
+                                        ? "La contraseña debe contener un minimo de 8 caracteres, una mayuscula y un caracter especial."
                                         : ""
                                 }
                             />

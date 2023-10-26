@@ -110,8 +110,8 @@ export default function Signup() {
                 isProvider: false,
             });
             if (res.status === 200) {
-                setModalTitle("Ya sos parte de nuestra comunidad!");
-                setModalDescription("Tu cuenta fue creada satisfactoriamente!");
+                setModalTitle("Bienvenido a DeliverAr!");
+                setModalDescription("Te Damos la Bienvenida a Nuestra Plataforma, Tu Cuenta ha Sido Creada con Éxito.");
                 setOpenPopup(true)
             } else {
                 setModalTitle("Ocurrio un error!");

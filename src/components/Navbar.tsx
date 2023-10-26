@@ -43,20 +43,31 @@ export const Navbar = () => {
                 {user?.user ? (
                     <Typography variant='h6' color={'white'}> DeliverAr </Typography>
                 ) : (
-                    <Link display={'flex'} alignItems={'center'} href='/'>
+                    <Button variant="text"
+                            sx={{
+                                color: "white",
+                                backgroundColor: "#4681f4",
+                                textTransform: "capitalize",
+                                borderRadius: "10px",
+                                "&:hover": {
+                                    backgroundColor: "#5783db",
+                                    border: "1px solid white",
+                                }
+                            }}
+                            href="/">
                         <Typography variant='h6' color={'white'}> DeliverAr </Typography>
-                    </Link>
+                    </Button>
                 )}
                 {user?.user ? (
                         <Box
                             sx={{
                                 display: "flex",
                                 justifyContent: "center",
-                                alignItems: "center",
+                                alignItems: "stretch",
                                 gap: "10px",
                                 marginLeft: "auto"
                             }}>
-                            <Button href="/dashboard" variant="text" sx={{
+                            <Button href="/dashboard" variant='h6' sx={{
                                 color: "white",
                                 backgroundColor: "#4681f4",
                                 textTransform: "capitalize",
@@ -69,7 +80,7 @@ export const Navbar = () => {
                                 Dashboard
                             </Button>
                             <Divider orientation="vertical" flexItem/>
-                            <Button href="/orders" variant="text" sx={{
+                            <Button href="/orders" variant='h6' sx={{
                                 color: "white",
                                 backgroundColor: "#4681f4",
                                 textTransform: "capitalize",
@@ -82,7 +93,7 @@ export const Navbar = () => {
                                 Mis Pedidos
                             </Button>
                             <Divider orientation="vertical" flexItem/>
-                            <Button variant="text"
+                            <Button variant='h6'
                                     sx={{
                                         color: "white",
                                         backgroundColor: "#4681f4",
@@ -99,7 +110,8 @@ export const Navbar = () => {
                                     <Avatar
                                         src={user?.user?.image ? user?.user?.image : user?.user?.profilePicture}
                                         alt="user-avatar"/>
-                                </Box></Button>
+                                </Box>
+                            </Button>
                             <IconButton
                                 sx={{
                                     color: "white",
@@ -128,15 +140,37 @@ export const Navbar = () => {
                                     gap: "10px",
                                     marginLeft: "auto"
                                 }}>
-                                <Link href='/login'>
+                                <Button variant="text"
+                                        sx={{
+                                            color: "white",
+                                            backgroundColor: "#4681f4",
+                                            textTransform: "capitalize",
+                                            borderRadius: "10px",
+                                            "&:hover": {
+                                                backgroundColor: "#5783db",
+                                                border: "1px solid white",
+                                            }
+                                        }}
+                                        href="/login">
                                     <Typography variant='h6' color={'white'}>Iniciar Sesion</Typography>
-                                </Link>
+                                </Button>
                             </Box>
                             <Box padding={2}/>
                             <Box>
-                                <Link href='/signup'>
+                                <Button variant="text"
+                                        sx={{
+                                            color: "white",
+                                            backgroundColor: "#4681f4",
+                                            textTransform: "capitalize",
+                                            borderRadius: "10px",
+                                            "&:hover": {
+                                                backgroundColor: "#5783db",
+                                                border: "1px solid white",
+                                            }
+                                        }}
+                                        href="/signup">
                                     <Typography variant='h6' color={'white'}>Registrarse</Typography>
-                                </Link>
+                                </Button>
                             </Box>
                         </>
                     )}

@@ -38,12 +38,12 @@ export default function Reset() {
             const res = await ResetPassword(email);
             console.log("res", res)
             if (res.status === 200) {
-                setModalTitle("Ya casi estas nuevamente con nosotros!");
-                setModalDescription("Para seguir disfrutando de nuestros servicios te hemos enviado un email para poder obtener tu nueva contraseña.");
+                setModalTitle("Tu Regreso a Nuestros Servicios Está en Marcha");
+                setModalDescription("Hemos enviado un correo con las instrucciones para que puedas restablecer tu contraseña y seguir utilizando nuestros servicios sin problemas. Por favor, revisa tu bandeja de entrada. Si no encuentras el mensaje, échale un vistazo a la carpeta de correo no deseado. Si surge algún problema, nuestro equipo de soporte está aquí para ayudarte. ¡Gracias por tu comprensión!");
                 setOpenPopup(true);
             } else {
-                setModalTitle("An error has occurred");
-                setModalDescription("Please check your email format. If the problem persists, please contact us.");
+                setModalTitle("Ocurrio un error.");
+                setModalDescription("Por favor, intente nuevamente. Si el problema persiste, comuníquese con nuestro equipo de soporte.");
                 setOpenPopup(true);
             }
         } else {

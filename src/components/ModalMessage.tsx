@@ -19,12 +19,18 @@ export const ModalMessage = ({openPopup, handleClosePopup, title, description}) 
                     top: "50%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
-                    width: "50%",
                     bgcolor: "white",
                     borderRadius: "10px",
                     border: "1px solid #000",
-                    minHeight: "200px",
+                    minHeight: "250px",
+                    minWidth: "250px",
                     p: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "15px",
+                    margin: "10px",
+                    alignItems: "center",
+                    justifyContent: "center"
                 }}
             >
                 <IconButton
@@ -40,17 +46,21 @@ export const ModalMessage = ({openPopup, handleClosePopup, title, description}) 
                 >
                     <CloseIcon/>
                 </IconButton>
-                <Typography
-                    id="popup-title"
-                    variant="h6"
-                    component="div"
-                    sx={{color: "black", marginBottom: "10px"}}
-                >
-                    {title}
-                </Typography>
-                <Typography id="popup-description" sx={{color: "black"}}>
-                    {description}
-                </Typography>
+                <Box sx={{display: "flex", width: "90%"}}>
+                    <Typography
+                        id="popup-title"
+                        variant="h4"
+                        sx={{color: "black"}}
+                    >
+                        {'< '}{title}{' />'}
+                    </Typography>
+                </Box>
+                <Box
+                    sx={{display: "flex", width: "90%", backgroundColor: "#4681f4", borderRadius: "10px", padding: "10px"}}>
+                    <Typography id="popup-description" varaint="h5" sx={{color: "black"}}>
+                        {description}
+                    </Typography>
+                </Box>
             </Box>
         </Modal>
     )
