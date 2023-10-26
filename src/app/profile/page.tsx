@@ -74,7 +74,7 @@ export default function Profile() {
             setImage(imageUrl);
             updateUser({...user, user: {...user?.user, profilePicture: imageUrl}});
         }
-    };
+    }
 
     const handleConfirmDelete = async () => {
         const res = await DeleteUser(email, user?.token);
@@ -82,6 +82,8 @@ export default function Profile() {
             await signOut({
                 callbackUrl: "/",
             });
+            localStorage.clear()
+            document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
         }
         handleCloseDeleteModal();
     };
@@ -101,6 +103,7 @@ export default function Profile() {
         }
 
         if (name !== user?.user?.name || password !== user?.user?.password) {
+            updateUser({...user, user: {...user?.user, name: name, password: password}});
             const res = await UpdateUser({
                 email: email,
                 name: name,
@@ -221,20 +224,53 @@ export default function Profile() {
                         onClose={handleCloseDeleteModal}
                         aria-labelledby="alert-dialog-title"
                         aria-describedby="alert-dialog-description"
+                        PaperProps={{
+                            style: {
+                                borderRadius: "10px",
+                            },
+                        }}
                     >
                         <DialogTitle id="alert-dialog-title">
-                            Confirmar eliminación
+                            <Typography
+                                id="popup-title"
+                                variant="h5"
+                                sx={{color: "black"}}
+                            >
+                                {'< '}Confirmar eliminación{' />'}
+                            </Typography>
                         </DialogTitle>
                         <DialogContent>
                             <DialogContentText id="alert-dialog-description">
-                                ¿Está seguro de que desea eliminar su cuenta?
+                                <Typography id="popup-description" varaint="h5" sx={{color: "black"}}>
+                                    ¿Está seguro de que desea eliminar su cuenta?
+                                </Typography>
                             </DialogContentText>
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={handleCloseDeleteModal} color="primary">
+                            <Button
+                                onClick={handleCloseDeleteModal}
+                                sx={{
+                                    color: "white",
+                                    backgroundColor: "#4681f4",
+                                    textTransform: "capitalize",
+                                    borderRadius: "10px",
+                                    "&:hover": {
+                                        backgroundColor: "#5783db",
+                                        border: "1px solid white",
+                                    }
+                                }}>
                                 Cancelar
                             </Button>
-                            <Button onClick={handleConfirmDelete} color="primary" autoFocus>
+                            <Button onClick={handleConfirmDelete} sx={{
+                                color: "white",
+                                backgroundColor: "#4681f4",
+                                textTransform: "capitalize",
+                                borderRadius: "10px",
+                                "&:hover": {
+                                    backgroundColor: "#5783db",
+                                    border: "1px solid white",
+                                }
+                            }}>
                                 Confirmar
                             </Button>
                         </DialogActions>

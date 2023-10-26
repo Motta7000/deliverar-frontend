@@ -11,6 +11,7 @@ export const AppProvider = ({children}) => {
     }
 
     const updateUser = (updatedUser) => {
+        console.log("updatedUser", updatedUser)
         setUser(updatedUser);
     }
 

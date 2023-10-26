@@ -40,12 +40,10 @@ export default function Login() {
     };
 
     const validatePassword = (password: string) => {
-        if (!password.trim()) {
-            return false;
-        }
         const passwordRegex = /^(?=.*[A-Z])(?=.*[^\da-zA-Z]).{8,}$/;
-        return !passwordRegex.test(password);
+        return passwordRegex.test(password);
     };
+
 
     const handleEmailChange = (e: {
         target: {
@@ -66,18 +64,12 @@ export default function Login() {
     };
 
     const onLogin = async () => {
-        if (!email || !password) {
-            setErrors({...errors, email: !email, password: !password});
-            return;
-        }
-        console.log("errors", !isValidEmail(email))
-        if (!isValidEmail(email)) {
-            setErrors({...errors, email: !email});
-            return;
-        }
-        if (!validatePassword(password)) {
-            setErrors({...errors, password: !password});
-            return;
+        let newErrors = {
+            email: !isValidEmail(email),
+            password: !validatePassword(password),
+        };
+        if (newErrors.email || newErrors.password) {
+            return setErrors(newErrors);
         }
         const res = await LoginUser({email: email, password: password});
         console.log("res", res)

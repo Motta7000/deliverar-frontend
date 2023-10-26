@@ -82,11 +82,8 @@ export default function Signup() {
     };
 
     const validatePassword = (password: string) => {
-        if (!password.trim()) {
-            return false;
-        }
         const passwordRegex = /^(?=.*[A-Z])(?=.*[^\da-zA-Z]).{8,}$/;
-        return !passwordRegex.test(password);
+        return passwordRegex.test(password);
     };
 
     const onCreate = async () => {
