@@ -7,63 +7,59 @@ import {GetCookie} from "@/app/functions/getCookie";
 
 const items = [
     {
-        title: "Item 1",
-        description: "Description 1",
-        image: "/images/background-barrio.png",
+        title: "ROBOT NRO 55",
+        description: "Nro Pedido #4564",
+        image: "/images/robot-view.png",
+        puntoPartida: 'Local',
+        destino: 'Lote 40',
         videoUrl: "https://www.youtube.com/embed/_140vNR-qMw",
     },
     {
-        title: "Item 2",
-        description: "Description 2",
-        image: "/images/background-barrio.png",
+        title: "ROBOT NRO 55",
+        description: "Nro Pedido #4564",
+        image: "/images/robot-view.png",
+        puntoPartida: 'Local',
+        destino: 'Lote 43',
         videoUrl: "https://www.youtube.com/embed/DRNXWMcgVbs",
     },
     {
-        title: "Item 3",
-        description: "Description 3",
-        image: "/images/background-barrio.png",
+        title: "ROBOT NRO 55",
+        description: "Nro Pedido #4564",
+        image: "/images/robot-view.png",
+        puntoPartida: 'Local',
+        destino: 'Lote 32',
         videoUrl: "https://www.youtube.com/embed/_140vNR-qMw",
     },
     {
-        title: "Item 4",
-        description: "Description 4",
-        image: "/images/background-barrio.png",
+        title: "ROBOT NRO 55",
+        description: "Nro Pedido #4564",
+        image: "/images/robot-view.png",
+        puntoPartida: 'Local',
+        destino: 'Lote 78',
         videoUrl: "https://www.youtube.com/embed/_140vNR-qMw",
     },
     {
-        title: "Item 5",
-        description: "Description 5",
-        image: "/images/background-barrio.png",
+        title: "ROBOT NRO 55",
+        description: "Nro Pedido #4564",
+        image: "/images/robot-view.png",
+        puntoPartida: 'Local',
+        destino: 'Lote 177',
         videoUrl: "https://www.youtube.com/embed/_140vNR-qMw",
     },
     {
-        title: "Item 6",
-        description: "Description 6",
-        image: "/images/background-barrio.png",
+        title: "ROBOT NRO 55",
+        description: "Nro Pedido #4564",
+        image: "/images/robot-view.png",
+        puntoPartida: 'Local',
+        destino: 'Lote 34',
         videoUrl: "https://www.youtube.com/embed/_140vNR-qMw",
     },
     {
-        title: "Item 7",
-        description: "Description 7",
-        image: "/images/background-barrio.png",
-        videoUrl: "https://www.youtube.com/embed/_140vNR-qMw",
-    },
-    {
-        title: "Item 8",
-        description: "Description 8",
-        image: "/images/background-barrio.png",
-        videoUrl: "https://www.youtube.com/embed/_140vNR-qMw",
-    },
-    {
-        title: "Item 9",
-        description: "Description 9",
-        image: "/images/background-barrio.png",
-        videoUrl: "https://www.youtube.com/embed/_140vNR-qMw",
-    },
-    {
-        title: "Item 10",
-        description: "Description 10",
-        image: "/images/background-barrio.png",
+        title: "ROBOT NRO 55",
+        description: "Nro Pedido #4564",
+        image: "/images/robot-view.png",
+        puntoPartida: 'Local',
+        destino: 'Lote 40',
         videoUrl: "https://www.youtube.com/embed/_140vNR-qMw",
     },
 ];
@@ -107,11 +103,11 @@ export default function Dashboard() {
             <Box
                 sx={{
                     display: "flex",
-                    width: "20%",
+                    width: "27%",
                     flexDirection: "column",
                     overflow: "auto",
-                    padding: "10px",
-                    gap: "10px",
+                    padding: "15px",
+                    gap: "15px",
                 }}
             >
                 {items.map((item, index) => {
@@ -142,20 +138,27 @@ export default function Dashboard() {
                                     objectFit: "cover",
                                 }}
                             />
+
                             <Box
                                 sx={{
                                     display: "flex",
                                     flexDirection: "column",
                                     width: "100%",
-                                    justifyContent: "center",
-                                    alignItems: "center",
                                     mt: "5px",
+                                    margin: "12px",
                                 }}
                             >
-                                <Typography sx={{color: "white"}}>{item.title}</Typography>
-                                <Typography sx={{color: "white"}}>
-                                    {item.description}
-                                </Typography>
+                                <Box paddingTop={2}/>
+                                <Typography sx={{color: "white"}}>{item.title} - {item.description}</Typography>
+                                <Box paddingTop={2}/>
+
+                                <Box paddingTop={2}/>
+
+                                <Typography sx={{color: "white"}}> Pto Partida: {item.puntoPartida}  </Typography>
+                                <Box paddingTop={2}/>
+
+                                <Typography sx={{color: "white"}}> Destino: {item.destino}  </Typography>
+
                             </Box>
                         </Box>
                     );
@@ -164,7 +167,7 @@ export default function Dashboard() {
             <Box
                 sx={{
                     display: "flex",
-                    width: "80%",
+                    width: "100%",
                     alignItems: "center",
                     height: "100%",
                 }}
@@ -174,7 +177,7 @@ export default function Dashboard() {
                         display: "flex",
                         flexDirection: "column",
                         width: "100%",
-                        padding: "2px",
+                        padding: "15px",
                         gap: "2px",
                         height: "100%",
                     }}
@@ -213,8 +216,15 @@ export default function Dashboard() {
                         </Typography>
                         <RobotTracker/>
                     </Box>
+
+                    <Box
+                        sx={{display: "flex", flexDirection: "row", width: "100%", padding: "10px", gap: "5px", backgroundColor: "white",}}></Box>
+
                 </Box>
+
             </Box>
+
         </Box>
+
     );
 }

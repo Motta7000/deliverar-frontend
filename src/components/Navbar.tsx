@@ -14,6 +14,9 @@ import {
 import {signOut} from "next-auth/react";
 import LogoutIcon from '@mui/icons-material/Logout';
 import {AppContext} from "@/context/AppContext";
+import InventoryIcon from '@mui/icons-material/Inventory';
+import Tooltip from '@mui/material/Tooltip';
+import PersonIcon from '@mui/icons-material/Person';
 
 export const Navbar = () => {
     const {user, addUser, updateUser} = useContext(AppContext);
@@ -41,7 +44,24 @@ export const Navbar = () => {
         <AppBar position="static" elevation={0}>
             <Toolbar>
                 {user?.user ? (
-                    <Typography variant='h6' color={'white'}> DeliverAr </Typography>
+                    <>
+                        {user?.user?.isProvider ? (
+                                <Box sx={{display: "flex", gap: "15px", alignItems: "center"}}>
+                                    <Typography variant='h6' color={'white'}> DeliverAr </Typography>
+                                    <Tooltip title="Cuenta Proveedor">
+                                        <InventoryIcon/>
+                                    </Tooltip>
+                                </Box>
+                            ) :
+                            (
+                                <Box sx={{display: "flex", gap: "15px", alignItems: "center"}}>
+                                    <Typography variant='h6' color={'white'}> DeliverAr </Typography>
+                                    <Tooltip title="Cuenta Cliente">
+                                        <PersonIcon/>
+                                    </Tooltip>
+                                </Box>
+                            )}
+                    </>
                 ) : (
                     <Button variant="text"
                             sx={{
