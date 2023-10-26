@@ -176,16 +176,19 @@ export default function Signup() {
                         flexDirection: "column",
                         width: "60%",
                         padding: "10px",
+                        minHeight: "300px",
+                        alignItems: "center",
+                        justifyContent: "center",
                         marginRight: "15px",
                         gap: "20px",
                         backdropFilter: "blur(10px)",
                         border: "1px solid grey",
                     }}
                 >
-                    <Typography sx={{fontSize: "40px"}}>
+                    <Typography sx={{fontSize: "40px", color: "white"}}>
                         Entregas Premium, Autonomas y Confiables
                     </Typography>
-                    <Typography>
+                    <Typography sx={{color: "white"}}>
                         Ofrecemos un servicio de entregas de máxima calidad con un toque de
                         innovación y seguridad. Nuestra flota de vehículos autónomos
                         garantiza una entrega eficiente y confiable en todo momento.{" "}
@@ -196,8 +199,9 @@ export default function Signup() {
                 sx={{
                     display: "flex",
                     width: "50%",
-                    height: "95%",
+                    height: "75%",
                     alignSelf: "flex-end",
+                    alignItems: "center",
                     justifyContent: "flex-start",
                 }}
             >

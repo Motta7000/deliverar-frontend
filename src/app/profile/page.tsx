@@ -163,18 +163,22 @@ export default function Profile() {
                             onChange={onChangeImage}
                         />
                         <label htmlFor="avatar-upload-input">
-                            <Button component="span" sx={{
-                                textTransform: "capitalize",
-                                color: "white",
-                                backgroundColor: "black",
-                                borderRadius: "10px",
-                                cursor: "pointer",
-                                fontSize: "16px",
-                                "&:hover": {
-                                    backgroundColor: "white",
-                                    color: "black",
-                                },
-                            }}>
+                            <Button
+                                sx={{
+                                    border: "black 2px solid",
+                                    marginTop: "auto",
+                                    textTransform: "capitalize",
+                                    color: "white",
+                                    backgroundColor: "black",
+                                    borderRadius: "10px",
+                                    cursor: "pointer",
+                                    fontSize: "16px",
+                                    "&:hover": {
+                                        backgroundColor: "black",
+                                        color: "white",
+                                        border: "none",
+                                    },
+                                }}>
                                 Subir Imagen
                             </Button>
                         </label>
@@ -236,7 +240,8 @@ export default function Profile() {
                     </Dialog>
                 </Box>
             </Box>
-            <Box sx={{display: "flex", width: "80%"}}>
+            <Box
+                sx={{display: "flex", width: "80%", border: "1px solid #4681f4", padding: "20px", borderRadius: "10px"}}>
                 <Box
                     sx={{
                         display: "flex",
@@ -255,7 +260,7 @@ export default function Profile() {
                         sx={{
                             display: "flex",
                             flexDirection: "column",
-                            gap: "10px",
+                            gap: "30px",
                             padding: "10px",
                             height: "100vh",
                         }}
@@ -269,7 +274,6 @@ export default function Profile() {
                                 variant="outlined"
                                 value={name}
                                 onChange={(event) => onChangeName(event)}
-                                sx={{width: "30%"}}
                             />
                         </Box>
                         <Box sx={{display: "flex", flexDirection: "column", gap: "10px"}}>
@@ -280,7 +284,6 @@ export default function Profile() {
                                 label="Email"
                                 value={email}
                                 variant="outlined"
-                                sx={{width: "30%"}}
                                 disabled
                             />
                         </Box>
@@ -294,22 +297,25 @@ export default function Profile() {
                                 variant="outlined"
                                 value={password}
                                 onChange={(event) => onChangePassword(event)}
-                                sx={{width: "30%"}}
                             />
                         </Box>
                         <Box>
                             <Button
-                                variant="text"
                                 onClick={onSaveChanges}
                                 sx={{
-                                    color: "white",
-                                    backgroundColor: "#4681f4",
+                                    border: "black 2px solid",
+                                    marginTop: "auto",
                                     textTransform: "capitalize",
+                                    color: "white",
+                                    backgroundColor: "black",
                                     borderRadius: "10px",
+                                    cursor: "pointer",
+                                    fontSize: "16px",
                                     "&:hover": {
-                                        backgroundColor: "#5783db",
-                                        border: "1px solid white",
-                                    }
+                                        backgroundColor: "black",
+                                        color: "white",
+                                        border: "none",
+                                    },
                                 }}
                             >
                                 Guardar Cambios
