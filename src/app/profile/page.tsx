@@ -164,6 +164,7 @@ export default function Profile() {
                         />
                         <label htmlFor="avatar-upload-input">
                             <Button
+                                component="span"
                                 sx={{
                                     border: "black 2px solid",
                                     marginTop: "auto",
