@@ -23,14 +23,12 @@ export const ModalMessage = ({openPopup, handleClosePopup, title, description}) 
                     borderRadius: "10px",
                     border: "1px solid #000",
                     minHeight: "250px",
-                    minWidth: "250px",
-                    p: 2,
+                    minWidth: "300px",
                     display: "flex",
                     flexDirection: "column",
                     gap: "15px",
-                    margin: "10px",
                     alignItems: "center",
-                    justifyContent: "center"
+                    justifyContent: "center",
                 }}
             >
                 <IconButton
@@ -46,7 +44,7 @@ export const ModalMessage = ({openPopup, handleClosePopup, title, description}) 
                 >
                     <CloseIcon/>
                 </IconButton>
-                <Box sx={{display: "flex", width: "90%"}}>
+                <Box sx={{display: "flex", width: "100%"}}>
                     <Typography
                         id="popup-title"
                         variant="h4"

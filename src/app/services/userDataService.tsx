@@ -45,7 +45,7 @@ export const ResetPassword = async (email: any) => {
     }
 }
 
-export const ChangeProfileImage = async (email: any, token: any, profilePicture: any) => {
+/*export const ChangeProfileImage = async (email: any, token: any, profilePicture: any) => {
     try {
         return await fetch(`http://localhost:8000/api/user/profile-picture/${email}`, {
             method: 'PUT',
@@ -55,7 +55,26 @@ export const ChangeProfileImage = async (email: any, token: any, profilePicture:
     } catch (e) {
         console.log("error", e)
     }
-}
+}*/
+
+export const ChangeProfileImage = async (email: any, token: any, profilePicture: any) => {
+    console.log("profilePicture", profilePicture);
+    try {
+        const formData = new FormData();
+        formData.append('profilePicture', profilePicture);
+
+        return await fetch(`http://localhost:8000/api/user/profile-picture/${email}`, {
+            method: 'PUT',
+            body: formData,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                "Authorization": `Bearer ${token}`,
+            },
+        });
+    } catch (e) {
+        console.log("error", e);
+    }
+};
 
 export const LoginUser = async (credentials: any) => {
     try {

@@ -59,17 +59,29 @@ export default function Signup() {
         return emailRegex.test(email);
     }
 
-    const handleNameChange = (e: { target: { value: any } }) => {
+    const handleNameChange = (e: {
+        target: {
+            value: any
+        }
+    }) => {
         const newName = e.target.value;
         setName(newName);
     };
 
-    const handleEmailChange = (e: { target: { value: any } }) => {
+    const handleEmailChange = (e: {
+        target: {
+            value: any
+        }
+    }) => {
         const newEmail = e.target.value;
         setEmail(newEmail);
     };
 
-    const handlePasswordChange = (e: { target: { value: any } }) => {
+    const handlePasswordChange = (e: {
+        target: {
+            value: any
+        }
+    }) => {
         const newPassword = e.target.value;
         setPassword(newPassword);
     };
@@ -110,10 +122,12 @@ export default function Signup() {
                 setModalTitle("Bienvenido a DeliverAr!");
                 setModalDescription("Te Damos la Bienvenida a Nuestra Plataforma, Tu Cuenta ha Sido Creada con Éxito.");
                 setOpenPopup(true)
+                setErrors({name: false, email: false, password: false, userType: false})
             } else {
                 setModalTitle("Ocurrio un error!");
                 setModalDescription("Por favor verifica que el email sea valido e intenta nuevamente. Si el problema persiste, por favor contactanos.");
                 setOpenPopup(true);
+                setErrors({name: false, email: false, password: false, userType: false})
             }
         } else {
             const res = await AddUser({
@@ -434,7 +448,7 @@ export default function Signup() {
                                     "&:hover": {textDecoration: "underline dotted"},
                                 }}
                             >
-                                INICIA SESION
+                                INICIAR SESION
                             </Typography>
                         </Link>
                     </Box>

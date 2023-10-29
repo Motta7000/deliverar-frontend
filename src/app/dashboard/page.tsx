@@ -4,6 +4,7 @@ import {Box, Typography} from "@mui/material";
 import RobotTracker from "@/components/RobotTracker";
 import Paper from "@mui/material/Paper";
 import {GetCookie} from "@/app/functions/getCookie";
+import {useSession} from "next-auth/react";
 
 const items = [
     {
@@ -12,7 +13,7 @@ const items = [
         image: "/images/robot-view.png",
         puntoPartida: 'Local',
         destino: 'Lote 40',
-        videoUrl: "https://www.youtube.com/embed/_140vNR-qMw",
+        videoUrl: "https://www.youtube.com/embed/XMMNzhukSTE",
     },
     {
         title: "ROBOT NRO 55",
@@ -20,7 +21,7 @@ const items = [
         image: "/images/robot-view.png",
         puntoPartida: 'Local',
         destino: 'Lote 43',
-        videoUrl: "https://www.youtube.com/embed/DRNXWMcgVbs",
+        videoUrl: "https://www.youtube.com/embed/uCNwRW3a8G4",
     },
     {
         title: "ROBOT NRO 55",
@@ -28,7 +29,7 @@ const items = [
         image: "/images/robot-view.png",
         puntoPartida: 'Local',
         destino: 'Lote 32',
-        videoUrl: "https://www.youtube.com/embed/_140vNR-qMw",
+        videoUrl: "https://www.youtube.com/embed/XMMNzhukSTE",
     },
     {
         title: "ROBOT NRO 55",
@@ -36,7 +37,7 @@ const items = [
         image: "/images/robot-view.png",
         puntoPartida: 'Local',
         destino: 'Lote 78',
-        videoUrl: "https://www.youtube.com/embed/_140vNR-qMw",
+        videoUrl: "https://www.youtube.com/embed/uCNwRW3a8G4",
     },
     {
         title: "ROBOT NRO 55",
@@ -44,7 +45,7 @@ const items = [
         image: "/images/robot-view.png",
         puntoPartida: 'Local',
         destino: 'Lote 177',
-        videoUrl: "https://www.youtube.com/embed/_140vNR-qMw",
+        videoUrl: "https://www.youtube.com/embed/XMMNzhukSTE",
     },
     {
         title: "ROBOT NRO 55",
@@ -52,7 +53,7 @@ const items = [
         image: "/images/robot-view.png",
         puntoPartida: 'Local',
         destino: 'Lote 34',
-        videoUrl: "https://www.youtube.com/embed/_140vNR-qMw",
+        videoUrl: "https://www.youtube.com/embed/uCNwRW3a8G4",
     },
     {
         title: "ROBOT NRO 55",
@@ -60,12 +61,14 @@ const items = [
         image: "/images/robot-view.png",
         puntoPartida: 'Local',
         destino: 'Lote 40',
-        videoUrl: "https://www.youtube.com/embed/_140vNR-qMw",
+        videoUrl: "https://www.youtube.com/embed/XMMNzhukSTE",
     },
 ];
 
 export default function Dashboard() {
     const [selectedRobot, setSelectedRobot] = useState<number>(0);
+    const {data: session} = useSession()
+    console.log("session", session)
 
     async function CheckCookie() {
         const userCookie = await GetCookie('user');
@@ -218,7 +221,14 @@ export default function Dashboard() {
                     </Box>
 
                     <Box
-                        sx={{display: "flex", flexDirection: "row", width: "100%", padding: "10px", gap: "5px", backgroundColor: "white",}}></Box>
+                        sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            width: "100%",
+                            padding: "10px",
+                            gap: "5px",
+                            backgroundColor: "white",
+                        }}></Box>
 
                 </Box>
 

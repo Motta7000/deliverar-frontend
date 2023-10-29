@@ -35,7 +35,7 @@ const handler = NextAuth({
 
                 if (res.ok && user) {
                     await create(user);
-                    return user.user;
+                    return user;
                 } else {
                     return Promise.resolve(null);
                 }
@@ -55,6 +55,22 @@ const handler = NextAuth({
             else if (new URL(url).origin === baseUrl) return url;
             return baseUrl;
         },
+        async jwt({token, user, session}) {
+            if (user) {
+                return {...token, user: user.user, token: user.token};
+            }
+            return token
+        },
+        async session({session, token, user}) {
+            return {
+                ...session,
+                user: token
+            }
+        }
+    },
+    secret: process.env.NEXTAUTH_SECRET,
+    session: {
+        strategy: "jwt",
     },
 });
 

@@ -80,29 +80,10 @@ export default function Profile() {
     const onChangeImage = (event: ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
         if (files && files.length > 0) {
-            //const imageUrl = URL.createObjectURL(files[0]);
-            setImage(event.target.files[0]);
+            const imageUrl = URL.createObjectURL(files[0]);
+            setImage(imageUrl);
         }
     }
-
-    /*const onChangeImage = (event: ChangeEvent<HTMLInputElement>) => {
-        const files = event.target.files;
-        if (files && files.length > 0) {
-            const file = files[0];
-            const imageUrl = URL.createObjectURL(file);
-
-            // Get file name and type
-            const fileName = file.name;
-            const fileType = file.type;
-
-            // Create the desired string
-            const profilePictureString = `profilePicture=@${fileName};type=${fileType}`;
-
-            // Set the image and the formatted string
-            setImage(profilePictureString);
-            //setProfilePictureString(profilePictureString);
-        }
-    };*/
 
     const handleConfirmDelete = async () => {
         const res = await DeleteUser(email, user?.token);
@@ -129,103 +110,6 @@ export default function Profile() {
         return passwordRegex.test(password);
     };
 
-    /*const onSaveChanges = async () => {
-        if (image !== user?.user?.profilePicture) {
-            const image2 = await ChangeProfileImage(email, user?.token, image);
-            console.log("res", image2)
-        }
-        let newErrors = {
-            password: !validatePassword(password),
-        };
-        console.log("newErrors", newErrors)
-        if (newErrors.password || name !== user?.user?.name) {
-            return setErrors(newErrors);
-        }
-        if (name !== user?.user?.name || password !== user?.user?.password) {
-            updateUser({...user, user: {...user?.user, name: name, password: password}});
-            const res = await UpdateUser({
-                email: email,
-                name: name,
-                password: password,
-            }, user?.token)
-            if (res.status === 200) {
-                setModalTitle("Guardaron con extio!");
-                setModalDescription("Los cambios fueron guardados con exito.");
-                setOpenPopup(true);
-            } else {
-                setModalTitle("Ocurrio un error.");
-                setModalDescription("Por favor, intente nuevamente. Si el problema persiste, comuníquese con nuestro equipo de soporte.");
-                setOpenPopup(true);
-            }
-            console.log("res", res)
-        }
-    };*/
-
-    /*const onSaveChanges = async () => {
-        let newErrors = {password: ""}
-        if (password !== "") {
-            newErrors = {
-                password: !validatePassword(password)
-            };
-        }
-
-        if (image !== user?.user?.profilePicture) {
-            const image2 = await ChangeProfileImage(email, user?.token, image);
-            if (image2.status === 200) {
-                updateUser({...user, user: {...user?.user, profilePicture: image}});
-            }
-            console.log("res de imagen", image2);
-        }
-
-        console.log("newErrors", newErrors);
-
-        if (newErrors.password || name !== user?.user?.name ||
-            (password !== "" && password !== user?.user?.password)) {
-            return setErrors(newErrors);
-        }
-
-        let shouldUpdate = false;
-
-        /!*if (
-            name !== user?.user?.name ||
-            (password !== "" && password !== user?.user?.password)
-        ) {
-            shouldUpdate = true;
-        }*!/
-        console.log(name)
-        console.log(user?.user?.name)/!*
-        if (shouldUpdate) {*!/
-        console.log(user.user.name)
-        console.log(name)
-        const res = await UpdateUser(
-            {
-                email: email,
-                name: name,
-                password: password,
-            },
-            user?.token
-        );
-
-        if (res.status === 200) {
-            updateUser({
-                ...user,
-                user: {...user?.user, name: name, password: password},
-            });
-            setModalTitle("Guardaron con éxito!");
-            setModalDescription("Los cambios fueron guardados con éxito.");
-            setOpenPopup(true);
-        } else {
-            setModalTitle("Ocurrió un error.");
-            setModalDescription(
-                "Por favor, inténtelo nuevamente. Si el problema persiste, comuníquese con nuestro equipo de soporte."
-            );
-            setOpenPopup(true);
-        }
-
-        console.log("res de todo", res);
-
-    };*/
-
     const onSaveChanges = async () => {
         let newErrors = {password: ""};
 
@@ -247,8 +131,6 @@ export default function Profile() {
 
             console.log("Image upload response", imageResponse);
         }
-
-        console.log("New errors", newErrors);
 
         // Check if there are errors or if the name, password, or email has changed
         if (
@@ -407,6 +289,8 @@ export default function Profile() {
                         PaperProps={{
                             style: {
                                 borderRadius: "10px",
+                                minHeight: "100px",
+                                minWidth: "200px",
                             },
                         }}
                     >
@@ -421,9 +305,12 @@ export default function Profile() {
                         </DialogTitle>
                         <DialogContent>
                             <DialogContentText id="alert-dialog-description">
-                                <Typography id="popup-description" varaint="h5" sx={{color: "black"}}>
-                                    ¿Está seguro de que desea eliminar su cuenta?
-                                </Typography>
+                                <Box
+                                    sx={{display: "flex", width: "100%", backgroundColor: "#4681f4", borderRadius: "10px", padding: "10px"}}>
+                                    <Typography id="popup-description" varaint="h5" sx={{color: "black"}}>
+                                        ¿Está seguro de que desea eliminar su cuenta?
+                                    </Typography>
+                                </Box>
                             </DialogContentText>
                         </DialogContent>
                         <DialogActions>

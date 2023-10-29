@@ -6,12 +6,23 @@ export const AppContext = createContext();
 export const AppProvider = ({children}) => {
     const [user, setUser] = useState<object>(null);
 
+    function deleteCookie(key) {
+        document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+    }
+
+
     const addUser = (newUser) => {
         setUser(newUser);
+        if (user !== null) {
+            //localStorage.removeItem('user')
+            //deleteCookie('user');
+        }
     }
 
     const updateUser = (updatedUser) => {
-        console.log("updatedUser", updatedUser)
+        //console.log("updatedUser", updatedUser)
+        //localStorage.removeItem('user')
+        //deleteCookie('user');
         setUser(updatedUser);
     }
 
