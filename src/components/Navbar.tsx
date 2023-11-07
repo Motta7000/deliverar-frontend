@@ -8,8 +8,12 @@ export const Navbar = () => {
     const {data: session} = useSession();
 
     return (
-        <AppBar position="static" elevation={0}>
-            <Toolbar>
+        <AppBar position="static" elevation={0} >
+            <Toolbar
+            sx={{
+                zIndex:1
+            }}
+            >
                 {session?.user ? (
                     <Typography variant='h6' color={'white'}> DeliverAr </Typography>
                 ) : (

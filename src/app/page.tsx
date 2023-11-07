@@ -1,8 +1,14 @@
-import React from "react";
-import {Box, Container, Typography} from "@mui/material";
+import React, {useEffect} from "react";
+import { Box, Container, Typography } from "@mui/material";
+import videojs from 'video.js'
+import $ from 'jquery'
+
+
 
 export default function Home() {
+
     return (
+
         <Box
             sx={{
                 height: "100%",
@@ -14,7 +20,8 @@ export default function Home() {
                 color: "white",
             }}
         >
-            <Container sx={{width: "60%"}}>
+
+            <Container sx={{ width: "60%" }}>
                 <Box
                     sx={{
                         backdropFilter: "blur(10px)",
@@ -37,6 +44,8 @@ export default function Home() {
                     </Typography>
                 </Box>
             </Container>
+      
         </Box>
     )
 }
+

@@ -18,10 +18,13 @@
     "@types/node": "20.6.1",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
+    "aws-sdk": "^2.1480.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
+    "fs": "^0.0.1-security",
+    "jquery": "^3.7.1",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.288.0",
     "next": "^13.5.4",
@@ -30,11 +33,14 @@
     "react-dom": "18.2.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "5.2.2"
+    "typescript": "5.2.2",
+    "videojs": "^1.0.0"
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.25",
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.31",
-    "tailwindcss": "^3.3.3"
+    "tailwindcss": "^3.3.3",
+    "video.js": "^8.6.1"
   }
 }
